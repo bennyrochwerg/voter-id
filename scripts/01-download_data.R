@@ -1,37 +1,41 @@
 #### Preamble ####
-# Purpose: Downloads and saves the data from [...UPDATE THIS...]
-# Author: Rohan Alexander [...UPDATE THIS...]
-# Date: 11 February 2023 [...UPDATE THIS...]
-# Contact: rohan.alexander@utoronto.ca [...UPDATE THIS...]
-# License: MIT
-# Pre-requisites: [...UPDATE THIS...]
-# Any other information needed? [...UPDATE THIS...]
+# Purpose: Downloading and saving of data from the reproduction package
+# for the paper "Who Do Voter ID Laws Keep from Voting?" (Fraga and Miller 2022).
+# Author: Benny Rochwerg
+# Date: February 13, 2024
+# Contact: 4321benny@gmail.com
+# Pre-requisites: Install the tidyverse (Wickham et al. 2019),
+# haven (Wickham, Miller, and Smith 2023), and labelled (Larmarange 2023)
+# packages.
 
+#### Loading Packages ####
 
-#### Workspace setup ####
 # install.packages("tidyverse")
 # install.packages("haven")
 # install.packages("labelled")
 library(tidyverse)
 library(haven)
 library(labelled)
-# [...UPDATE THIS...]
 
-#### Download data ####
-county_data_raw <- read_dta(file = "https://github.com/bennyrochwerg/voter-id/raw/main/data/replication/fraga_miller_county_replication.dta")
-reasons_data_raw <- read_dta(file = "https://github.com/bennyrochwerg/voter-id/raw/main/data/replication/fraga_miller_reasons_replication.dta")
+#### Downloading the Dataset ####
+
+# Since the data from the reproduction package could not be downloaded directly
+# from the source into this script, it was necessary to download the data
+# manually. This was done by first visiting this website:
+# https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/X5ALUA
+# Then, the "Access File" option beside the "fraga_miller_county_replication.tab"
+# file was clicked on, and the "Stata 14 Binary (Original File Format)" option
+# was clicked on. This process was repeated for the
+# "fraga_miller_reasons_replication.tab" file on the same website.
+# The two resulting files were then uploaded to GitHub and downloaded from
+# GitHub into this script (see below).
+county_data_reproduction <- read_dta(file = "data/replication/fraga_miller_county_replication.dta")
+reasons_data_reproduction <- read_dta(file = "data/replication/fraga_miller_reasons_replication.dta")
 
 # Combining the data labels
-county_data_raw <- to_factor(county_data_raw)
-reasons_data_raw <- to_factor(reasons_data_raw)
+county_data_reproduction <- to_factor(county_data_reproduction)
+reasons_data_reproduction <- to_factor(reasons_data_reproduction)
 
-# [...ADD CODE HERE TO DOWNLOAD...]
-
-
-
-#### Save data ####
-# [...UPDATE THIS...]
-# change the_raw_data to whatever name you assigned when you downloaded it.
-write_csv(the_raw_data, "inputs/data/raw_data.csv") 
-
-         
+#### Saving the Dataset ####
+write_csv(county_data_reproduction, "data/replication/county_data_reproduction.csv")
+write_csv(reasons_data_reproduction, "data/replication/reasons_data_reproduction.csv")
