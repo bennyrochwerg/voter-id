@@ -13,7 +13,8 @@ library(tidyverse)
 #### Clean data ####
 
 reasons_data_cleaned <- reasons_data_raw |>
-  select(transport, birthcert, work, lost, disability, family, applied, other)
+  select(transport, birthcert, work, lost, disability, family, applied, other,
+         relocation, hardship, id_capable)
 
 #### Save data ####
 write_csv(cleaned_data, "outputs/data/analysis_data.csv")
