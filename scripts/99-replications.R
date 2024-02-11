@@ -64,8 +64,9 @@ figure_2_replication <-
   # Cédric Scherer's website:
   # https://www.cedricscherer.com/2021/07/05/a-quick-how-to-on-labelling-bar-graphs-in-ggplot2/
   geom_text(aes(label = figure_2_data$label),
-            hjust = c(1, 1, 1, 1, 1, 1, 1, 1),
-            colour = "orange") +
+            hjust = c(0, 0, 0, 0, 0, 0, 0, 0),
+            colour = "red",
+            size = 3) +
   # The expand_limits function used to change the upper limit of the percent
   # axis's scale was obtained from the tidyverse ggplot2 website:
   # https://ggplot2.tidyverse.org/reference/expand_limits.html
@@ -108,8 +109,9 @@ figure_3_replication <-
   # Cédric Scherer's website:
   # https://www.cedricscherer.com/2021/07/05/a-quick-how-to-on-labelling-bar-graphs-in-ggplot2/
   geom_text(aes(label = figure_3_data$label),
-            hjust = c(1, 1, 1),
-            colour = "orange") +
+            hjust = c(0, 0, 0),
+            colour = "red",
+            size = 3) +
   # The expand_limits function used to change the upper limit of the percent
   # axis's scale was obtained from the tidyverse ggplot2 website:
   # https://ggplot2.tidyverse.org/reference/expand_limits.html
@@ -156,8 +158,9 @@ figure_a2_white_replication <-
   # Cédric Scherer's website:
   # https://www.cedricscherer.com/2021/07/05/a-quick-how-to-on-labelling-bar-graphs-in-ggplot2/
   geom_text(aes(label = figure_a2_data_white$label),
-            hjust = c(1, 1, 1),
-            colour = "orange") +
+            hjust = c(0, 0, 0),
+            colour = "red",
+            size = 2) +
   ggtitle("White") +
   # The expand_limits function used to change the upper limit of the percent
   # axis's scale was obtained from the tidyverse ggplot2 website:
@@ -200,8 +203,9 @@ figure_a2_black_replication <-
   # Cédric Scherer's website:
   # https://www.cedricscherer.com/2021/07/05/a-quick-how-to-on-labelling-bar-graphs-in-ggplot2/
   geom_text(aes(label = figure_a2_data_black$label),
-            hjust = c(1, 1, 1),
-            colour = "orange") +
+            hjust = c(0, 0, 0),
+            colour = "red",
+            size = 2) +
   ggtitle("Black") +
   # The expand_limits function used to change the upper limit of the percent
   # axis's scale was obtained from the tidyverse ggplot2 website:
@@ -244,8 +248,9 @@ figure_a2_latinx_replication <-
   # Cédric Scherer's website:
   # https://www.cedricscherer.com/2021/07/05/a-quick-how-to-on-labelling-bar-graphs-in-ggplot2/
   geom_text(aes(label = figure_a2_data_latinx$label),
-            hjust = c(1, 1, 1),
-            colour = "orange") +
+            hjust = c(0, 0, 0),
+            colour = "red",
+            size = 2) +
   ggtitle("Latinx") +
   # The expand_limits function used to change the upper limit of the percent
   # axis's scale was obtained from the tidyverse ggplot2 website:
@@ -258,6 +263,10 @@ figure_a2_replication <- (figure_a2_white_replication) / (figure_a2_black_replic
 # Adding a title to the combined graph
 figure_a2_replication <- figure_a2_replication +
   plot_annotation(title = "Figure A2. Impediments cited by Texas voters in 2016, by race")
+
+# Combining the axis labels on the combined graph
+figure_a2_replication <- figure_a2_replication +
+  plot_layout(axes = "collect")
 
 # Displaying the replicated graph
 figure_a2_replication

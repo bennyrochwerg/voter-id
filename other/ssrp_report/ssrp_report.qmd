@@ -6,24 +6,36 @@ editor: visual
 ---
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
+
 #### Loading Packages ####
 
 # install.packages("tidyverse")
 # install.packages("patchwork")
+# install.packages("here")
 library(tidyverse)
 library(patchwork)
+library(here)
 ```
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
+
 # Loading the cleaned data
-reasons_data_cleaned <- read_csv("data/replication/reasons_data_cleaned.csv")
+reasons_data_cleaned <- read_csv(here::here("data/replication/reasons_data_cleaned.csv"))
 ```
 
 # Report
 
-Using the R programming language () and the tidyverse (), patchwork (), haven (), and labelled () packages, three figures from *Who Do Voter ID Laws Keep from Voting?* by Fraga and Miller (2022) were reproduced.
+Using the R programming language (R Core Team 2023) and the tidyverse (Wickham et al. 2019), patchwork (Pedersen 2024), haven (Wickham, Miller, and Smith 2023), labelled (Larmarange 2023), and here (Müller 2020) packages, three figures from *Who Do Voter ID Laws Keep from Voting?* by Fraga and Miller (2022) were reproduced.
 
 ```{r}
+#| echo: false
+#| warning: false
 #| label: fig-2
 #| fig-cap: "Reproduction of Figure 2 from Fraga and Miller (2022)"
 
@@ -71,8 +83,9 @@ figure_2_replication <-
   # Cédric Scherer's website:
   # https://www.cedricscherer.com/2021/07/05/a-quick-how-to-on-labelling-bar-graphs-in-ggplot2/
   geom_text(aes(label = figure_2_data$label),
-            hjust = c(1, 1, 1, 1, 1, 1, 1, 1),
-            colour = "orange") +
+            hjust = c(0, 0, 0, 0, 0, 0, 0, 0),
+            colour = "red",
+            size = 3) +
   # The expand_limits function used to change the upper limit of the percent
   # axis's scale was obtained from the tidyverse ggplot2 website:
   # https://ggplot2.tidyverse.org/reference/expand_limits.html
@@ -83,6 +96,8 @@ figure_2_replication
 ```
 
 ```{r}
+#| echo: false
+#| warning: false
 #| label: fig-3
 #| fig-cap: "Reproduction of Figure 3 from Fraga and Miller (2022)"
 
@@ -122,8 +137,9 @@ figure_3_replication <-
   # Cédric Scherer's website:
   # https://www.cedricscherer.com/2021/07/05/a-quick-how-to-on-labelling-bar-graphs-in-ggplot2/
   geom_text(aes(label = figure_3_data$label),
-            hjust = c(1, 1, 1),
-            colour = "orange") +
+            hjust = c(0, 0, 0),
+            colour = "red",
+            size = 3) +
   # The expand_limits function used to change the upper limit of the percent
   # axis's scale was obtained from the tidyverse ggplot2 website:
   # https://ggplot2.tidyverse.org/reference/expand_limits.html
@@ -133,7 +149,11 @@ figure_3_replication <-
 figure_3_replication
 ```
 
+\newpage
+
 ```{r}
+#| echo: false
+#| warning: false
 #| label: fig-a2
 #| fig-cap: "Reproduction of Figure A2 from Fraga and Miller (2022)"
 
@@ -177,8 +197,9 @@ figure_a2_white_replication <-
   # Cédric Scherer's website:
   # https://www.cedricscherer.com/2021/07/05/a-quick-how-to-on-labelling-bar-graphs-in-ggplot2/
   geom_text(aes(label = figure_a2_data_white$label),
-            hjust = c(1, 1, 1),
-            colour = "orange") +
+            hjust = c(0, 0, 0),
+            colour = "red",
+            size = 2) +
   ggtitle("White") +
   # The expand_limits function used to change the upper limit of the percent
   # axis's scale was obtained from the tidyverse ggplot2 website:
@@ -221,8 +242,9 @@ figure_a2_black_replication <-
   # Cédric Scherer's website:
   # https://www.cedricscherer.com/2021/07/05/a-quick-how-to-on-labelling-bar-graphs-in-ggplot2/
   geom_text(aes(label = figure_a2_data_black$label),
-            hjust = c(1, 1, 1),
-            colour = "orange") +
+            hjust = c(0, 0, 0),
+            colour = "red",
+            size = 2) +
   ggtitle("Black") +
   # The expand_limits function used to change the upper limit of the percent
   # axis's scale was obtained from the tidyverse ggplot2 website:
@@ -265,8 +287,9 @@ figure_a2_latinx_replication <-
   # Cédric Scherer's website:
   # https://www.cedricscherer.com/2021/07/05/a-quick-how-to-on-labelling-bar-graphs-in-ggplot2/
   geom_text(aes(label = figure_a2_data_latinx$label),
-            hjust = c(1, 1, 1),
-            colour = "orange") +
+            hjust = c(0, 0, 0),
+            colour = "red",
+            size = 2) +
   ggtitle("Latinx") +
   # The expand_limits function used to change the upper limit of the percent
   # axis's scale was obtained from the tidyverse ggplot2 website:
@@ -280,10 +303,32 @@ figure_a2_replication <- (figure_a2_white_replication) / (figure_a2_black_replic
 figure_a2_replication <- figure_a2_replication +
   plot_annotation(title = "Figure A2. Impediments cited by Texas voters in 2016, by race")
 
+# Combining the axis labels on the combined graph
+figure_a2_replication <- figure_a2_replication +
+  plot_layout(axes = "collect")
+
 # Displaying the replicated graph
 figure_a2_replication
 ```
 
 @fig-2, @fig-3, and @fig-a2 suggest that the reproduction of these figures from Fraga and Miller (2022) was successful.
 
+\newpage
+
 # References
+
+Alexander R. (2023). *Telling Stories with Data*. Boca Raton: CRC Press. <https://tellingstorieswithdata.com/>.
+
+Fraga BL, Miller MG. (2022). "Who Do Voter ID Laws Keep from Voting?" *The Journal of Politics* 84 (2): 1091–1105. <https://doi.org/10.1086/716282>.
+
+Larmarange J (2023). *labelled: Manipulating Labelled Data*. R package version 2.12.0, <https://CRAN.R-project.org/package=labelled>.
+
+Müller K (2020). *here: A Simpler Way to Find Your Files*. R package version 1.0.1, <https://CRAN.R-project.org/package=here>.
+
+Pedersen T (2024). *patchwork: The Composer of Plots*. R package version 1.2.0, <https://CRAN.R-project.org/package=patchwork>.
+
+R Core Team (2023). *R: A Language and Environment for Statistical Computing*. R Foundation for Statistical Computing, Vienna, Austria. <https://www.R-project.org/>.
+
+Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, Grolemund G, Hayes A, Henry L, Hester J, Kuhn M, Pedersen TL, Miller E, Bache SM, Müller K, Ooms J, Robinson D, Seidel DP, Spinu V, Takahashi K, Vaughan D, Wilke C, Woo K, Yutani H (2019). “Welcome to the tidyverse.” *Journal of Open Source Software*, 4 (43), 1686. doi:10.21105/joss.01686 <https://doi.org/10.21105/joss.01686>.
+
+Wickham H, Miller E, Smith D (2023). *haven: Import and Export 'SPSS', 'Stata' and 'SAS' Files*. R package version 2.5.4, <https://CRAN.R-project.org/package=haven>.
