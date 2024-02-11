@@ -5,7 +5,8 @@
 # Date: February 13, 2024
 # Contact: 4321benny@gmail.com
 # Pre-requisites: Install the tidyverse (Wickham et al. 2019) and patchwork
-# (Pedersen 2024) packages. Run the "01-download_data.R" file.
+# (Pedersen 2024) packages. Run the "01-download_data.R" and "02-data_cleaning.R"
+# files.
 
 # Some of this code was adapted from Alexander (2023).
 
@@ -17,6 +18,9 @@ library(tidyverse)
 library(patchwork)
 
 #### Replicating the Graphs ####
+
+# Loading the cleaned data
+reasons_data_cleaned <- read_csv("data/replication/reasons_data_cleaned.csv")
 
 # Replication of Figure 2 from the paper (Fraga and Miller 2022)
 

@@ -1,20 +1,29 @@
 #### Preamble ####
-# Purpose: Cleans the raw plane data recorded by two observers..... [...UPDATE THIS...]
-# Author: Rohan Alexander [...UPDATE THIS...]
-# Date: 6 April 2023 [...UPDATE THIS...]
-# Contact: rohan.alexander@utoronto.ca [...UPDATE THIS...]
-# License: MIT
-# Pre-requisites: [...UPDATE THIS...]
-# Any other information needed? [...UPDATE THIS...]
 
-#### Workspace setup ####
+# Purpose: Cleaning the data from the reproduction package for the paper "Who
+# Do Voter ID Laws Keep from Voting?" (Fraga and Miller 2022).
+# Author: Benny Rochwerg
+# Date: February 13, 2024
+# Contact: 4321benny@gmail.com
+# Pre-requisites: Install the tidyverse (Wickham et al. 2019) package.
+# Run the "01-download_data.R" file.
+
+#### Loading Packages ####
+
+# install.packages("tidyverse")
 library(tidyverse)
 
-#### Clean data ####
+#### Cleaning the Dataset ####
 
-reasons_data_cleaned <- reasons_data_raw |>
+# Loading the reproduction package data
+county_data_reproduction <- read_csv("data/replication/county_data_reproduction.csv")
+reasons_data_reproduction <- read_csv("data/replication/reasons_data_reproduction.csv")
+
+# Selecting only the necessary columns from the reproduction package data
+reasons_data_cleaned <- reasons_data_reproduction |>
   select(transport, birthcert, work, lost, disability, family, applied, other,
          relocation, hardship, id_capable, race)
 
-#### Save data ####
-write_csv(cleaned_data, "outputs/data/analysis_data.csv")
+#### Saving the Cleaned Dataset ####
+
+write_csv(reasons_data_cleaned, "data/replication/reasons_data_cleaned.csv")

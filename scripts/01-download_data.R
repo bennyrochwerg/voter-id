@@ -1,4 +1,5 @@
 #### Preamble ####
+
 # Purpose: Downloading and saving of data from the reproduction package
 # for the paper "Who Do Voter ID Laws Keep from Voting?" (Fraga and Miller 2022).
 # Author: Benny Rochwerg
@@ -37,5 +38,6 @@ county_data_reproduction <- to_factor(county_data_reproduction)
 reasons_data_reproduction <- to_factor(reasons_data_reproduction)
 
 #### Saving the Dataset ####
+
 write_csv(county_data_reproduction, "data/replication/county_data_reproduction.csv")
 write_csv(reasons_data_reproduction, "data/replication/reasons_data_reproduction.csv")
