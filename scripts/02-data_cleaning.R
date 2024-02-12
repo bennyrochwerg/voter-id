@@ -21,8 +21,9 @@ reasons_data_reproduction <- read_csv("data/replication/reasons_data_reproductio
 
 # Selecting only the necessary columns from the reproduction package data
 reasons_data_cleaned <- reasons_data_reproduction |>
-  select(transport, birthcert, work, lost, disability, family, applied, other,
-         relocation, hardship, id_capable, race)
+  select(county, transport, birthcert, work, lost, disability, family, applied, other,
+         relocation, hardship, id_capable, race, black, latino, asian, other_race) |>
+  mutate(white = if_else(!is.na(race) & race == "White", 1, 0))
 
 #### Saving the Cleaned Dataset ####
 

@@ -1,27 +1,33 @@
 ---
 title: "My title"
-subtitle: "My subtitle if needed"
 author: 
-  - First author
-  - Another author
-thanks: "Code and data are available at: LINK."
-date: today
+  - Benny Rochwerg
+thanks: "Data and code used to generate this report are available here: <https://github.com/bennyrochwerg/voter-id/>"
+date: 02-13-2024
 date-format: long
 abstract: "First sentence. Second sentence. Third sentence. Fourth sentence."
 format: pdf
 number-sections: true
+# This method of creating a table of contents was acquired from:
+# https://quarto.org/docs/reference/formats/pdf.html
+toc: true
 bibliography: references.bib
 ---
 
 ```{r}
-#| include: false
+#| echo: false
 #| warning: false
 #| message: false
 
-library(tidyverse)
-library(palmerpenguins)
-```
+#### Loading Packages ####
 
+# install.packages("tidyverse")
+# install.packages("patchwork")
+# install.packages("here")
+library(tidyverse)
+library(patchwork)
+library(here)
+```
 
 # Introduction
 
@@ -29,14 +35,359 @@ library(palmerpenguins)
 
 
 
-
-
 # Data {#sec-data}
 
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
 
+# Loading the cleaned data
+reasons_data_cleaned <- read_csv(here::here("data/replication/reasons_data_cleaned.csv"))
 
+# Filtering the data to only include Harris County
+reasons_data_harris <- reasons_data_cleaned |>
+  filter(county == "HARRIS")
+```
 
-# Results
+This report explores replication data [@voteriddata] associated with the article *Who Do Voter ID Laws Keep from Voting?* by @voterid. This data, along with associated code, was uploaded by the authors to The Journal of Politics Dataverse [@voteriddata] to allow others to replicate aspects of the article such as graphs and tables. By facilitating the reproduction of the authors' findings, this data [@voteriddata] contributes to the reliability and authenticity of the contents of the article [@tellingstorieswithdata] and its conclusions.
+
+The data from @voteriddata includes both county- and voter-level variables from Texas in 2016. First, the county-level variables include the proportions of Black and Hispanic people, the proportions of individuals aged 18 to 24 and 75 and over, the proportion of people who voted for Barack Obama in the 2012 United States (US) presidential election (excluding third-party candidates), the proportion of non-college educated individuals, the rate of reasonable impediment declaration (RID) usage in 2016 (which allowed individuals without mandatory voter ID to vote using non-voter ID such as a birth certificate), the rate of ID-capable individuals (i.e., RID-filers who did not have their voter ID on hand as they forgot it, lost it, or withheld it in a defiant manner), the rates of relocation and hardship faced by individuals, and median household income [@voteriddata; @voterid]. Second, the voter-level variables were collected from RID submissions and include the county of each RID-filer, the issue or impediment that prevented each filer from acquiring voter ID (as well as grouped impediments such as relocation, hardship, and being ID-capable), the age and race of each filer, whether or not each filer was female, and the type of non-voter ID used by each filer [@voteriddata; @voterid].
+
+With respect to measurement, the authors collected the voter-level RID documents by submitting a Texas Public Information Act request [@voterid]. This yielded 16,097 RID documents, each of which included the filer's self-reported voter ID impediment, the type of non-voter ID used by the filer, and the filer's name [@voterid]. These RID documents were filed by individuals at their polling location [@voterid], and the data from the RID documents was organized electronically by @voterid. The authors then cross-referenced this RID data with Texas secretary of state voter registration data, which contained more personal details about each filer compared to the RID documents [@voterid]. Afterward, the authors used the filers' personal details as well as other demographic and geographic resources to predict their race as the voter registration data only stated if a family name was Spanish or not [@voterid]. Moreover, the authors obtained demographic county-related data from the 2015 US Census American Community Survey and used imputation to fill in missing data from one of the counties [@voterid].
+
+Since this analysis exclusively focuses on the voter-level RID-filer data, which could only be accessed by the authors through a formal request [@voterid], other similar datasets could not be used to generate this report. After downloading the data with the R programming language [@citeR] and the `tidyverse` [@citetidyverse], `haven` [@citehaven], and `labelled` [@citelabelled] packages, the `tidyverse` [@citetidyverse] package was employed in order to clean and filter the data. In doing so, a new variable was created to indicate whether or not each individual was White. Finally, the `tidyverse` [@citetidyverse] and `here` [@citehere] packages were used to filter the data to only include entries from Harris County, Texas, and the `tidyverse` [@citetidyverse] package was used to create graphs in this section.
+
+```{r}
+#| echo: false
+#| warning: false
+#| label: fig-races
+#| fig-cap: "Races of Harris County, Texas RID-filers in 2016"
+
+# Some of this code was adapted from Alexander (2023).
+
+# Creating a table containing the races and percentages
+fig_races_data <- tibble(
+  race = c("White", "Black", "Latinx", "Asian", "Other"),
+  percent = round((100 * c(mean(reasons_data_harris$white),
+                           mean(reasons_data_harris$black),
+                           mean(reasons_data_harris$latino),
+                           mean(reasons_data_harris$asian),
+                           mean(reasons_data_harris$other_race))), 2))
+
+# Creating data labels to be shown on the graph
+fig_races_data_labels <- paste(
+  fig_races_data$percent, "%", sep = "")
+
+# Adding the data labels to the data table
+fig_races_data <- fig_races_data |>
+  mutate(label = fig_races_data_labels)
+
+# Creating the graph
+fig_races <-
+  ggplot(mapping = aes(x = reorder(fig_races_data$race, fig_races_data$percent,
+                                   decreasing = TRUE),
+                       y = fig_races_data$percent)) +
+  geom_col() +
+  theme_classic() +
+  labs(x = "Race", y = "Percentage") +
+  coord_flip() +
+  # The geom_text function used to add the labels to the graph was obtained from
+  # R Graphics Cookbook:
+  # https://r-graphics.org/recipe-bar-graph-labels
+  # The hjust argument used to align the labels was obtained from
+  # Cédric Scherer's website:
+  # https://www.cedricscherer.com/2021/07/05/a-quick-how-to-on-labelling-bar-graphs-in-ggplot2/
+  geom_text(aes(label = fig_races_data$label),
+            hjust = c(0, 0, 0, 0, 0),
+            colour = "red",
+            size = 3) +
+  # The expand_limits function used to change the upper limit of the percent
+  # axis's scale was obtained from the tidyverse ggplot2 website:
+  # https://ggplot2.tidyverse.org/reference/expand_limits.html
+  expand_limits(y = 50)
+
+# Displaying the graph
+fig_races
+```
+
+@fig-races illustrates that the most common race among Harris County, Texas RID-filers in 2016 was White (approximately 41\%), followed by Black (approximately 29\%), Latinx (approximately 15\%), and Asian (approximately 3\%). Approximately 7\% of filers had a different race.
+
+@sec-results includes graphs pertaining to all relevant observations and variables. These graphs also include summary statistics in the form of percentages.
+
+# Results {#sec-results}
+
+The graphs in this section were created with the R programming language [@citeR] and the `tidyverse` [@citetidyverse] and `patchwork` [@citepatchwork] packages. @tellingstorieswithdata was used as a resource during this process.
+
+```{r}
+#| echo: false
+#| warning: false
+#| label: fig-impediments
+#| fig-cap: "Voter ID impediments for Harris County, Texas RID-filers in 2016"
+
+# Some of this code was adapted from Alexander (2023).
+
+# Creating a table containing the relevant voter ID reasons and percentages
+fig_impediments_data <- tibble(
+  reason = c("Family Obligations", "Applied, Has Not Received",
+             "Lack of Transportation", "Lacks Necessary Documents",
+             "Disability/Illness", "Work Obligations",
+             "ID was Lost or Stolen", "Other Reason"),
+  percent = round((100 * c(mean(reasons_data_harris$family),
+                    mean(reasons_data_harris$applied),
+                    mean(reasons_data_harris$transport),
+                    mean(reasons_data_harris$birthcert),
+                    mean(reasons_data_harris$disability),
+                    mean(reasons_data_harris$work),
+                    mean(reasons_data_harris$lost),
+                    mean(reasons_data_harris$other))), 2))
+
+# Creating data labels to be shown on the graph
+fig_impediments_data_labels <- paste(
+  fig_impediments_data$percent, "%", sep = "")
+
+# Adding the data labels to the data table
+fig_impediments_data <- fig_impediments_data |>
+  mutate(label = fig_impediments_data_labels)
+
+# Creating the graph
+fig_impediments <-
+  ggplot(mapping = aes(x = reorder(fig_impediments_data$reason, fig_impediments_data$percent,
+                                   decreasing = TRUE),
+                       y = fig_impediments_data$percent)) +
+  geom_col() +
+  theme_classic() +
+  labs(x = "Impediment to voter ID", y = "Percentage") +
+  coord_flip() +
+  # The geom_text function used to add the labels to the graph was obtained from
+  # R Graphics Cookbook:
+  # https://r-graphics.org/recipe-bar-graph-labels
+  # The hjust argument used to align the labels was obtained from
+  # Cédric Scherer's website:
+  # https://www.cedricscherer.com/2021/07/05/a-quick-how-to-on-labelling-bar-graphs-in-ggplot2/
+  geom_text(aes(label = fig_impediments_data$label),
+            hjust = c(0, 0, 0, 0, 0, 0, 0, 0),
+            colour = "red",
+            size = 3) +
+  # The expand_limits function used to change the upper limit of the percent
+  # axis's scale was obtained from the tidyverse ggplot2 website:
+  # https://ggplot2.tidyverse.org/reference/expand_limits.html
+  expand_limits(y = 40)
+
+# Displaying the graph
+fig_impediments
+```
+
+@fig-impediments illustrates that the largest voter ID impediment for Harris County, Texas RID-filers in 2016 was lost or stolen ID (approximately 29\%). This was followed by work obligations (approximately 17\%), lack of transportation (approximately 10\%), lack of necessary documents (approximately 7\%), disability or illness (approximately 7\%), an ongoing application process (approximately 7\%), and family obligations (approximately 6\%). Approximately 28\% of RID-filers provided a different reason for not being able to procure voter ID.
+
+```{r}
+#| echo: false
+#| warning: false
+#| label: fig-grouped-impediments
+#| fig-cap: "Grouped voter ID impediments for Harris County, Texas RID-filers in 2016"
+
+# Some of this code was adapted from Alexander (2023).
+
+# Creating a table containing the relevant voter ID reasons and percentages
+fig_grouped_impediments_data <- tibble(
+  reason = c("Relocation", "Hardship", "ID-Capable"),
+  percent = round((100 * c(mean(reasons_data_harris$relocation),
+                           mean(reasons_data_harris$hardship),
+                           mean(reasons_data_harris$id_capable))), 2))
+
+# Creating data labels to be shown on the graph
+fig_grouped_impediments_data_labels <- paste(
+  fig_grouped_impediments_data$percent, "%", sep = "")
+
+# Adding the data labels to the data table
+fig_grouped_impediments_data <- fig_grouped_impediments_data |>
+  mutate(label = fig_grouped_impediments_data_labels)
+
+# Creating the graph
+fig_grouped_impediments <-
+  ggplot(mapping = aes(x = reorder(fig_grouped_impediments_data$reason, fig_grouped_impediments_data$percent,
+                                   decreasing = TRUE),
+                       y = fig_grouped_impediments_data$percent)) +
+  geom_col() +
+  theme_classic() +
+  labs(x = "Impediment to voter ID", y = "Percentage") +
+  coord_flip() +
+  # The geom_text function used to add the labels to the graph was obtained from
+  # R Graphics Cookbook:
+  # https://r-graphics.org/recipe-bar-graph-labels
+  # The hjust argument used to align the labels was obtained from
+  # Cédric Scherer's website:
+  # https://www.cedricscherer.com/2021/07/05/a-quick-how-to-on-labelling-bar-graphs-in-ggplot2/
+  geom_text(aes(label = fig_grouped_impediments_data$label),
+            hjust = c(0, 0, 0),
+            colour = "red",
+            size = 3) +
+  # The expand_limits function used to change the upper limit of the percent
+  # axis's scale was obtained from the tidyverse ggplot2 website:
+  # https://ggplot2.tidyverse.org/reference/expand_limits.html
+  expand_limits(y = 40)
+
+# Displaying the graph
+fig_grouped_impediments
+```
+
+@fig-grouped-impediments shows that the largest grouped voter ID impediment for Harris County, Texas RID-filers in 2016 was hardship (approximately 37\%). This was followed by being ID-capable (approximately 32\%), which refers to RID-filers who did not have their voter ID on hand as they forgot it, lost it, or withheld it in a defiant manner [@voterid]. Finally, 27\% of RID-filers' impediment to voter ID was relocation.
+
+```{r}
+#| echo: false
+#| warning: false
+#| label: fig-grouped-impediments-race
+#| fig-cap: "Grouped voter ID impediments for Harris County, Texas RID-filers in 2016 by race"
+
+# Some of this code was adapted from Alexander (2023).
+
+# Filtering the dataset to only include entries with the race "White"
+reasons_data_harris_white <- reasons_data_harris |>
+  filter(race == "White")
+
+# Creating a table containing the relevant voter ID reasons and percentages
+# for the race "White"
+fig_grouped_impediments_race_data_white <- tibble(
+  reason = c("Relocation", "Hardship", "ID-Capable"),
+  percent = round((100 * c(mean(reasons_data_harris_white$relocation),
+                           mean(reasons_data_harris_white$hardship),
+                           mean(reasons_data_harris_white$id_capable))), 2))
+
+# Creating data labels to be shown on the graph for the race "White"
+fig_grouped_impediments_race_data_white_labels <- paste(
+  fig_grouped_impediments_race_data_white$percent, "%", sep = "")
+
+# Adding the data labels to the data table for the race "White"
+fig_grouped_impediments_race_data_white <- fig_grouped_impediments_race_data_white |>
+  mutate(label = fig_grouped_impediments_race_data_white_labels)
+
+# Creating the graph for the race "White"
+fig_grouped_impediments_race_white <-
+  ggplot(mapping = aes(x = fig_grouped_impediments_race_data_white$reason,
+                       y = fig_grouped_impediments_race_data_white$percent)) +
+  geom_col() +
+  theme_classic() +
+  labs(x = "Impediment to voter ID", y = "Percentage") +
+  scale_x_discrete(limits = c("ID-Capable", "Hardship", "Relocation")) +
+  coord_flip() +
+  # The geom_text function used to add the labels to the graph was obtained from
+  # R Graphics Cookbook:
+  # https://r-graphics.org/recipe-bar-graph-labels
+  # The hjust argument used to align the labels was obtained from
+  # Cédric Scherer's website:
+  # https://www.cedricscherer.com/2021/07/05/a-quick-how-to-on-labelling-bar-graphs-in-ggplot2/
+  geom_text(aes(label = fig_grouped_impediments_race_data_white$label),
+            hjust = c(0, 0, 0),
+            colour = "red",
+            size = 2) +
+  ggtitle("White") +
+  # The expand_limits function used to change the upper limit of the percent
+  # axis's scale was obtained from the tidyverse ggplot2 website:
+  # https://ggplot2.tidyverse.org/reference/expand_limits.html
+  expand_limits(y = 50)
+
+# Filtering the dataset to only include entries with the race "Black"
+reasons_data_harris_black <- reasons_data_harris |>
+  filter(race == "Black")
+
+# Creating a table containing the relevant voter ID reasons and percentages
+# for the race "Black"
+fig_grouped_impediments_race_data_black <- tibble(
+  reason = c("Relocation", "Hardship", "ID-Capable"),
+  percent = round((100 * c(mean(reasons_data_harris_black$relocation),
+                           mean(reasons_data_harris_black$hardship),
+                           mean(reasons_data_harris_black$id_capable))), 2))
+
+# Creating data labels to be shown on the graph for the race "Black"
+fig_grouped_impediments_race_data_black_labels <- paste(
+  fig_grouped_impediments_race_data_black$percent, "%", sep = "")
+
+# Adding the data labels to the data table for the race "Black"
+fig_grouped_impediments_race_data_black <- fig_grouped_impediments_race_data_black |>
+  mutate(label = fig_grouped_impediments_race_data_black_labels)
+
+# Creating the graph for the race "Black"
+fig_grouped_impediments_race_black <-
+  ggplot(mapping = aes(x = fig_grouped_impediments_race_data_black$reason,
+                       y = fig_grouped_impediments_race_data_black$percent)) +
+  geom_col() +
+  theme_classic() +
+  labs(x = "Impediment to voter ID", y = "Percentage") +
+  scale_x_discrete(limits = c("ID-Capable", "Hardship", "Relocation")) +
+  coord_flip() +
+  # The geom_text function used to add the labels to the graph was obtained from
+  # R Graphics Cookbook:
+  # https://r-graphics.org/recipe-bar-graph-labels
+  # The hjust argument used to align the labels was obtained from
+  # Cédric Scherer's website:
+  # https://www.cedricscherer.com/2021/07/05/a-quick-how-to-on-labelling-bar-graphs-in-ggplot2/
+  geom_text(aes(label = fig_grouped_impediments_race_data_black$label),
+            hjust = c(0, 0, 0),
+            colour = "red",
+            size = 2) +
+  ggtitle("Black") +
+  # The expand_limits function used to change the upper limit of the percent
+  # axis's scale was obtained from the tidyverse ggplot2 website:
+  # https://ggplot2.tidyverse.org/reference/expand_limits.html
+  expand_limits(y = 50)
+
+# Filtering the dataset to only include entries with the race "Latinx"
+reasons_data_harris_latinx <- reasons_data_harris |>
+  filter(race == "Latinx")
+
+# Creating a table containing the relevant voter ID reasons and percentages
+# for the race "Latinx"
+fig_grouped_impediments_race_data_latinx <- tibble(
+  reason = c("Relocation", "Hardship", "ID-Capable"),
+  percent = round((100 * c(mean(reasons_data_harris_latinx$relocation),
+                           mean(reasons_data_harris_latinx$hardship),
+                           mean(reasons_data_harris_latinx$id_capable))), 2))
+
+# Creating data labels to be shown on the graph for the race "Latinx"
+fig_grouped_impediments_race_data_latinx_labels <- paste(
+  fig_grouped_impediments_race_data_latinx$percent, "%", sep = "")
+
+# Adding the data labels to the data table for the race "Latinx"
+fig_grouped_impediments_race_data_latinx <- fig_grouped_impediments_race_data_latinx |>
+  mutate(label = fig_grouped_impediments_race_data_latinx_labels)
+
+# Creating the graph for the race "Latinx"
+fig_grouped_impediments_race_latinx <-
+  ggplot(mapping = aes(x = fig_grouped_impediments_race_data_latinx$reason,
+                       y = fig_grouped_impediments_race_data_latinx$percent)) +
+  geom_col() +
+  theme_classic() +
+  labs(x = "Impediment to voter ID", y = "Percentage") +
+  scale_x_discrete(limits = c("ID-Capable", "Hardship", "Relocation")) +
+  coord_flip() +
+  # The geom_text function used to add the labels to the graph was obtained from
+  # R Graphics Cookbook:
+  # https://r-graphics.org/recipe-bar-graph-labels
+  # The hjust argument used to align the labels was obtained from
+  # Cédric Scherer's website:
+  # https://www.cedricscherer.com/2021/07/05/a-quick-how-to-on-labelling-bar-graphs-in-ggplot2/
+  geom_text(aes(label = fig_grouped_impediments_race_data_latinx$label),
+            hjust = c(0, 0, 0),
+            colour = "red",
+            size = 2) +
+  ggtitle("Latinx") +
+  # The expand_limits function used to change the upper limit of the percent
+  # axis's scale was obtained from the tidyverse ggplot2 website:
+  # https://ggplot2.tidyverse.org/reference/expand_limits.html
+  expand_limits(y = 50)
+
+# Combining the graphs for the three races into one graph
+fig_grouped_impediments_race <- (fig_grouped_impediments_race_white) / (fig_grouped_impediments_race_black) / (fig_grouped_impediments_race_latinx)
+
+# Combining the axis labels on the combined graph
+fig_grouped_impediments_race <- fig_grouped_impediments_race +
+  plot_layout(axes = "collect")
+
+# Displaying the graph
+fig_grouped_impediments_race
+```
+
+@fig-grouped-impediments-race illustrates that the largest grouped voter ID impediment for White Harris County, Texas RID-filers in 2016 was hardship (approximately 40\%), followed by being ID-capable (approximately 30\%) and relocation (approximately 26\%). In addition, the largest grouped voter ID impediment for Black Harris County, Texas RID-filers in 2016 was hardship (approximately 39\%), followed by being ID-capable (approximately 33\%) and relocation (approximately 26\%). Finally, the largest grouped voter ID impediment for Latinx Harris County, Texas RID-filers in 2016 was being ID-capable (approximately 48\%), followed by hardship (approximately 30\%) and relocation (approximately 17\%).
 
 
 
@@ -45,12 +396,282 @@ library(palmerpenguins)
 
 \appendix
 
+\newpage
+
 # Appendix {-}
 
 
 # Additional data details
 
+```{r}
+#| echo: false
+#| warning: false
+#| label: fig-2
+#| fig-cap: "Voter ID impediments for Texas RID-filers in 2016 (reproduction of Figure 2 from Fraga and Miller (2022))"
 
+# Some of this code was adapted from Alexander (2023).
+
+# Replication of Figure 2 from the paper (Fraga and Miller 2022)
+
+# Creating a table containing the relevant voter ID reasons and percentages
+figure_2_data <- tibble(
+  reason = c("Family Obligations", "Applied, Has Not Received",
+             "Lack of Transportation", "Lacks Necessary Documents",
+             "Disability/Illness", "Work Obligations",
+             "ID was Lost or Stolen", "Other Reason"),
+  percent = round((100 * c(mean(reasons_data_cleaned$family),
+                    mean(reasons_data_cleaned$applied),
+                    mean(reasons_data_cleaned$transport),
+                    mean(reasons_data_cleaned$birthcert),
+                    mean(reasons_data_cleaned$disability),
+                    mean(reasons_data_cleaned$work),
+                    mean(reasons_data_cleaned$lost),
+                    mean(reasons_data_cleaned$other))), 2))
+
+# Creating data labels to be shown on the graph
+figure_2_data_labels <- paste(
+  figure_2_data$percent, "%", sep = "")
+
+# Adding the data labels to the data table
+figure_2_data <- figure_2_data |>
+  mutate(label = figure_2_data_labels)
+
+# Creating the replicated graph
+figure_2_replication <-
+  ggplot(mapping = aes(x = reorder(figure_2_data$reason, figure_2_data$percent,
+                                   decreasing = TRUE),
+                       y = figure_2_data$percent)) +
+  geom_col() +
+  theme_classic() +
+  labs(x = "Impediment to voter ID", y = "Percentage") +
+  coord_flip() +
+  # The geom_text function used to add the labels to the graph was obtained from
+  # R Graphics Cookbook:
+  # https://r-graphics.org/recipe-bar-graph-labels
+  # The hjust argument used to align the labels was obtained from
+  # Cédric Scherer's website:
+  # https://www.cedricscherer.com/2021/07/05/a-quick-how-to-on-labelling-bar-graphs-in-ggplot2/
+  geom_text(aes(label = figure_2_data$label),
+            hjust = c(0, 0, 0, 0, 0, 0, 0, 0),
+            colour = "red",
+            size = 3) +
+  # The expand_limits function used to change the upper limit of the percent
+  # axis's scale was obtained from the tidyverse ggplot2 website:
+  # https://ggplot2.tidyverse.org/reference/expand_limits.html
+  expand_limits(y = 40)
+
+# Displaying the replicated graph
+figure_2_replication
+```
+
+```{r}
+#| echo: false
+#| warning: false
+#| label: fig-3
+#| fig-cap: "Grouped voter ID impediments for Texas RID-filers in 2016 (reproduction of Figure 3 from Fraga and Miller (2022))"
+
+# Some of this code was adapted from Alexander (2023).
+
+# Replication of Figure 3 from the paper (Fraga and Miller 2022)
+
+# Creating a table containing the relevant voter ID reasons and percentages
+figure_3_data <- tibble(
+  reason = c("Relocation", "Hardship", "ID-Capable"),
+  percent = round((100 * c(mean(reasons_data_cleaned$relocation),
+                           mean(reasons_data_cleaned$hardship),
+                           mean(reasons_data_cleaned$id_capable))), 2))
+
+# Creating data labels to be shown on the graph
+figure_3_data_labels <- paste(
+  figure_3_data$percent, "%", sep = "")
+
+# Adding the data labels to the data table
+figure_3_data <- figure_3_data |>
+  mutate(label = figure_3_data_labels)
+
+# Creating the replicated graph
+figure_3_replication <-
+  ggplot(mapping = aes(x = reorder(figure_3_data$reason, figure_3_data$percent,
+                                   decreasing = TRUE),
+                       y = figure_3_data$percent)) +
+  geom_col() +
+  theme_classic() +
+  labs(x = "Impediment to voter ID", y = "Percentage") +
+  coord_flip() +
+  # The geom_text function used to add the labels to the graph was obtained from
+  # R Graphics Cookbook:
+  # https://r-graphics.org/recipe-bar-graph-labels
+  # The hjust argument used to align the labels was obtained from
+  # Cédric Scherer's website:
+  # https://www.cedricscherer.com/2021/07/05/a-quick-how-to-on-labelling-bar-graphs-in-ggplot2/
+  geom_text(aes(label = figure_3_data$label),
+            hjust = c(0, 0, 0),
+            colour = "red",
+            size = 3) +
+  # The expand_limits function used to change the upper limit of the percent
+  # axis's scale was obtained from the tidyverse ggplot2 website:
+  # https://ggplot2.tidyverse.org/reference/expand_limits.html
+  expand_limits(y = 40)
+
+# Displaying the replicated graph
+figure_3_replication
+```
+
+```{r}
+#| echo: false
+#| warning: false
+#| label: fig-a2
+#| fig-cap: "Grouped voter ID impediments for Texas RID-filers in 2016 by race (reproduction of Figure A2 from Fraga and Miller (2022))"
+
+# Some of this code was adapted from Alexander (2023).
+
+# Replication of Figure A2 from the paper (Fraga and Miller 2022)
+
+# Filtering the cleaned dataset to only include entries with the race "White"
+reasons_data_cleaned_white <- reasons_data_cleaned |>
+  filter(race == "White")
+
+# Creating a table containing the relevant voter ID reasons and percentages
+# for the race "White"
+figure_a2_data_white <- tibble(
+  reason = c("Relocation", "Hardship", "ID-Capable"),
+  percent = round((100 * c(mean(reasons_data_cleaned_white$relocation),
+                           mean(reasons_data_cleaned_white$hardship),
+                           mean(reasons_data_cleaned_white$id_capable))), 2))
+
+# Creating data labels to be shown on the graph for the race "White"
+figure_a2_data_white_labels <- paste(
+  figure_a2_data_white$percent, "%", sep = "")
+
+# Adding the data labels to the data table for the race "White"
+figure_a2_data_white <- figure_a2_data_white |>
+  mutate(label = figure_a2_data_white_labels)
+
+# Creating the replicated graph for the race "White"
+figure_a2_white_replication <-
+  ggplot(mapping = aes(x = figure_a2_data_white$reason,
+                       y = figure_a2_data_white$percent)) +
+  geom_col() +
+  theme_classic() +
+  labs(x = "Impediment to voter ID", y = "Percentage") +
+  scale_x_discrete(limits = c("ID-Capable", "Hardship", "Relocation")) +
+  coord_flip() +
+  # The geom_text function used to add the labels to the graph was obtained from
+  # R Graphics Cookbook:
+  # https://r-graphics.org/recipe-bar-graph-labels
+  # The hjust argument used to align the labels was obtained from
+  # Cédric Scherer's website:
+  # https://www.cedricscherer.com/2021/07/05/a-quick-how-to-on-labelling-bar-graphs-in-ggplot2/
+  geom_text(aes(label = figure_a2_data_white$label),
+            hjust = c(0, 0, 0),
+            colour = "red",
+            size = 2) +
+  ggtitle("White") +
+  # The expand_limits function used to change the upper limit of the percent
+  # axis's scale was obtained from the tidyverse ggplot2 website:
+  # https://ggplot2.tidyverse.org/reference/expand_limits.html
+  expand_limits(y = 45)
+
+# Filtering the cleaned dataset to only include entries with the race "Black"
+reasons_data_cleaned_black <- reasons_data_cleaned |>
+  filter(race == "Black")
+
+# Creating a table containing the relevant voter ID reasons and percentages
+# for the race "Black"
+figure_a2_data_black <- tibble(
+  reason = c("Relocation", "Hardship", "ID-Capable"),
+  percent = round((100 * c(mean(reasons_data_cleaned_black$relocation),
+                           mean(reasons_data_cleaned_black$hardship),
+                           mean(reasons_data_cleaned_black$id_capable))), 2))
+
+# Creating data labels to be shown on the graph for the race "Black"
+figure_a2_data_black_labels <- paste(
+  figure_a2_data_black$percent, "%", sep = "")
+
+# Adding the data labels to the data table for the race "Black"
+figure_a2_data_black <- figure_a2_data_black |>
+  mutate(label = figure_a2_data_black_labels)
+
+# Creating the replicated graph for the race "Black"
+figure_a2_black_replication <-
+  ggplot(mapping = aes(x = figure_a2_data_black$reason,
+                       y = figure_a2_data_black$percent)) +
+  geom_col() +
+  theme_classic() +
+  labs(x = "Impediment to voter ID", y = "Percentage") +
+  scale_x_discrete(limits = c("ID-Capable", "Hardship", "Relocation")) +
+  coord_flip() +
+  # The geom_text function used to add the labels to the graph was obtained from
+  # R Graphics Cookbook:
+  # https://r-graphics.org/recipe-bar-graph-labels
+  # The hjust argument used to align the labels was obtained from
+  # Cédric Scherer's website:
+  # https://www.cedricscherer.com/2021/07/05/a-quick-how-to-on-labelling-bar-graphs-in-ggplot2/
+  geom_text(aes(label = figure_a2_data_black$label),
+            hjust = c(0, 0, 0),
+            colour = "red",
+            size = 2) +
+  ggtitle("Black") +
+  # The expand_limits function used to change the upper limit of the percent
+  # axis's scale was obtained from the tidyverse ggplot2 website:
+  # https://ggplot2.tidyverse.org/reference/expand_limits.html
+  expand_limits(y = 45)
+
+# Filtering the cleaned dataset to only include entries with the race "Latinx"
+reasons_data_cleaned_latinx <- reasons_data_cleaned |>
+  filter(race == "Latinx")
+
+# Creating a table containing the relevant voter ID reasons and percentages
+# for the race "Latinx"
+figure_a2_data_latinx <- tibble(
+  reason = c("Relocation", "Hardship", "ID-Capable"),
+  percent = round((100 * c(mean(reasons_data_cleaned_latinx$relocation),
+                           mean(reasons_data_cleaned_latinx$hardship),
+                           mean(reasons_data_cleaned_latinx$id_capable))), 2))
+
+# Creating data labels to be shown on the graph for the race "Latinx"
+figure_a2_data_latinx_labels <- paste(
+  figure_a2_data_latinx$percent, "%", sep = "")
+
+# Adding the data labels to the data table for the race "Latinx"
+figure_a2_data_latinx <- figure_a2_data_latinx |>
+  mutate(label = figure_a2_data_latinx_labels)
+
+# Creating the replicated graph for the race "Latinx"
+figure_a2_latinx_replication <-
+  ggplot(mapping = aes(x = figure_a2_data_latinx$reason,
+                       y = figure_a2_data_latinx$percent)) +
+  geom_col() +
+  theme_classic() +
+  labs(x = "Impediment to voter ID", y = "Percentage") +
+  scale_x_discrete(limits = c("ID-Capable", "Hardship", "Relocation")) +
+  coord_flip() +
+  # The geom_text function used to add the labels to the graph was obtained from
+  # R Graphics Cookbook:
+  # https://r-graphics.org/recipe-bar-graph-labels
+  # The hjust argument used to align the labels was obtained from
+  # Cédric Scherer's website:
+  # https://www.cedricscherer.com/2021/07/05/a-quick-how-to-on-labelling-bar-graphs-in-ggplot2/
+  geom_text(aes(label = figure_a2_data_latinx$label),
+            hjust = c(0, 0, 0),
+            colour = "red",
+            size = 2) +
+  ggtitle("Latinx") +
+  # The expand_limits function used to change the upper limit of the percent
+  # axis's scale was obtained from the tidyverse ggplot2 website:
+  # https://ggplot2.tidyverse.org/reference/expand_limits.html
+  expand_limits(y = 45)
+
+# Combining the graphs for the three races into one graph
+figure_a2_replication <- (figure_a2_white_replication) / (figure_a2_black_replication) / (figure_a2_latinx_replication)
+
+# Combining the axis labels on the combined graph
+figure_a2_replication <- figure_a2_replication +
+  plot_layout(axes = "collect")
+
+# Displaying the replicated graph
+figure_a2_replication
+```
 
 
 \newpage
