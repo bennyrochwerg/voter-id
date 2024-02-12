@@ -45,9 +45,8 @@ library(here)
 # Loading the cleaned data
 reasons_data_cleaned <- read_csv(here::here("data/replication/reasons_data_cleaned.csv"))
 
-# Filtering the data to only include Harris County
-reasons_data_harris <- reasons_data_cleaned |>
-  filter(county == "HARRIS")
+# Loading the Harris County data
+reasons_data_harris <- read_csv(here::here("data/replication/reasons_data_harris.csv"))
 ```
 
 This report explores replication data [@voteriddata] associated with the article *Who Do Voter ID Laws Keep from Voting?* by @voterid. This data, along with associated code, was uploaded by the authors to The Journal of Politics Dataverse [@voteriddata] to allow others to replicate aspects of the article such as graphs and tables. By facilitating the reproduction of the authors' findings, this data [@voteriddata] contributes to the reliability and authenticity of the contents of the article [@tellingstorieswithdata] and its conclusions.
@@ -400,7 +399,6 @@ fig_grouped_impediments_race
 
 # Appendix {-}
 
-
 # Additional data details
 
 ```{r}
@@ -673,6 +671,17 @@ figure_a2_replication <- figure_a2_replication +
 figure_a2_replication
 ```
 
+# Sketches {#sec-sketches}
+
+Sketches of the data and graphs are available in the GitHub Repository associated with this report.
+
+# Simulation {#sec-simulation}
+
+A script containing data simulation is available in the GitHub Repository associated with this report. This script was generated using the R programming language [@citeR] and the `janitor` [@citejanitor] and `tidyverse` [@citetidyverse] packages.
+
+# Tests {#sec-tests}
+
+The simulated and actual data were tested using the R programming language [@citeR] and the `tidyverse` [@citetidyverse] package. Scripts containing the testing code are available in the GitHub Repository associated with this report.
 
 \newpage
 
