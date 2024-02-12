@@ -1,5 +1,9 @@
 # voter-id
 
+# Replication Code
+
+The R code used to replicate graphs from the original article can be found in `scripts/99-replications.R`.
+
 # Data Access
 
 The original reproduction package cannot be uploaded to GitHub due to its large file size. However, the package can be downloaded from this website: https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/X5ALUA&version=1.0
