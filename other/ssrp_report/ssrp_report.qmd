@@ -26,7 +26,7 @@ library(here)
 #| message: false
 
 # Loading the cleaned data
-reasons_data_cleaned <- read_csv(here::here("data/replication/reasons_data_cleaned.csv"))
+reasons_data_cleaned <- read_csv(here::here("data/reproduction/reasons_data_cleaned.csv"))
 ```
 
 # Report
