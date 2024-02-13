@@ -5,7 +5,7 @@ author:
 thanks: "Data and code used to generate this report are available here: <https://github.com/bennyrochwerg/voter-id/> \n Replication of three graphs from @voterid is available here: <https://www.socialsciencereproduction.org/reproductions/c0801c33-77d8-4be2-ad60-fa21826856ca/index>"
 date: 02-13-2024
 date-format: long
-abstract: "This report analyzed reasonable impediment declaration (RID) data on barriers to voter identification access in Harris County, Texas during the 2016 United States election. In comparing Harris County to Texas at large, lack of transportation was an overrepresented impediment, hardship was an overrepresented grouped impediment, and hardship among Black RID-filers was overrepresented. Possible contributorsx to these findings, including health and public transit concerns in Harris County, were identified. Future research should examine ways of mitigating these issues, such as enhancing public transit access and improving public health."
+abstract: "This report analyzed reasonable impediment declaration (RID) data on barriers to voter identification access in Harris County, Texas during the 2016 United States election. In comparing Harris County to Texas at large, lack of transportation was an overrepresented impediment, hardship was an overrepresented grouped impediment, and hardship among Black RID-filers was overrepresented. Possible contributors to these findings, including health and public transit concerns in Harris County, were identified. Future research should examine ways of mitigating these issues, such as enhancing public transit access and improving public health."
 format: pdf
 number-sections: true
 # This method of creating a table of contents was acquired from:
@@ -13,6 +13,21 @@ number-sections: true
 toc: true
 bibliography: references.bib
 ---
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+
+#### Preamble ####
+
+# Purpose: Generating a report titled "Harris County, Texas residents faced several barriers to voter identification access during the 2016 United States election".
+# Author: Benny Rochwerg
+# Date: February 13, 2024
+# Contact: 4321benny@gmail.com
+# Pre-requisites: Install the tidyverse (Wickham et al. 2019), patchwork (Pedersen 2024), and here (Müller 2020) packages.
+# Run the "01-download_data.R" and "02-data_cleaning.R" files.
+```
 
 ```{r}
 #| echo: false
@@ -422,7 +437,7 @@ Future research should examine barriers to voter ID access in other Texas counti
 
 ## Sketches {#sec-sketches}
 
-Sketches of the data and graphs are available in the GitHub Repository associated with this report.
+Sketches of the main data and graphs are available in the GitHub Repository associated with this report.
 
 ## Simulation {#sec-simulation}
 

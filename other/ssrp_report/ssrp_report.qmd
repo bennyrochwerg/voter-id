@@ -1,9 +1,26 @@
 ---
 title: "SSRP Report based on *Who Do Voter ID Laws Keep from Voting?* by Fraga and Miller (2022)"
 author: "Benny Rochwerg"
+date: 02-13-2024
+date-format: long
 format: pdf
 editor: visual
 ---
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+
+#### Preamble ####
+
+# Purpose: Generating an SSRP Report based on the paper "Who Do Voter ID Laws Keep from Voting?" (Fraga and Miller 2022).
+# Author: Benny Rochwerg
+# Date: February 13, 2024
+# Contact: 4321benny@gmail.com
+# Pre-requisites: Install the tidyverse (Wickham et al. 2019), patchwork (Pedersen 2024), and here (Müller 2020) packages.
+# Run the "01-download_data.R" and "02-data_cleaning.R" files.
+```
 
 ```{r}
 #| echo: false
