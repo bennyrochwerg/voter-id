@@ -1,4 +1,5 @@
 #### Preamble ####
+
 # Purpose: Testing the Harris County, Texas data based on the reproduction package
 # for the paper "Who Do Voter ID Laws Keep from Voting?" (Fraga and Miller 2022).
 # Author: Benny Rochwerg

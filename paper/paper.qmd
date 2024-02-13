@@ -1,11 +1,11 @@
 ---
-title: "My title"
+title: "Harris County, Texas residents faced several barriers to voter identification access during the 2016 United States election"
 author: 
   - Benny Rochwerg
-thanks: "Data and code used to generate this report are available here: <https://github.com/bennyrochwerg/voter-id/>"
+thanks: "Data and code used to generate this report are available here: <https://github.com/bennyrochwerg/voter-id/> \n Replication of three graphs from @voterid is available here: <https://www.socialsciencereproduction.org/reproductions/c0801c33-77d8-4be2-ad60-fa21826856ca/index>"
 date: 02-13-2024
 date-format: long
-abstract: "First sentence. Second sentence. Third sentence. Fourth sentence."
+abstract: "This report analyzed reasonable impediment declaration (RID) data on barriers to voter identification access in Harris County, Texas during the 2016 United States election. In comparing Harris County to Texas at large, lack of transportation was an overrepresented impediment, hardship was an overrepresented grouped impediment, and hardship among Black RID-filers was overrepresented. Possible contributorsx to these findings, including health and public transit concerns in Harris County, were identified. Future research should examine ways of mitigating these issues, such as enhancing public transit access and improving public health."
 format: pdf
 number-sections: true
 # This method of creating a table of contents was acquired from:
@@ -29,11 +29,13 @@ library(patchwork)
 library(here)
 ```
 
-# Introduction
+# Introduction {#sec-introduction}
 
-[@tellingstorieswithdata]
+In the United States (US), individual states have different voting practices [@voterid]. One such practice is mandating that individuals display a specific form of photographic identification (ID) in order to vote [@voterid]. In the 2016 US election, Texas residents who did not possess voter ID could fill in a reasonable impediment declaration (RID), which allowed them to vote using non-voter ID such as a birth certificate [@voterid].
 
+This form of voter ID requirement, which Texas introduced in 2014, is under scrutiny for possibly contributing to voter disenfranchisement [@voterid]. This is especially alarming in the case of minority groups, which are among those with lower voter ID rates [@voterid]. Although @voterid examined the demographics most at risk of possible disenfranchisement from the voter ID requirement in Texas as a whole, barriers to acquiring said ID were not emphasized. Consequently, this analysis focuses on voter ID access barriers faced by individuals in Harris County, the most populated of Texas' 254 counties [@population], which comprised approximately `r round(100 * (4731145 / 29145505))`\% of the state's population in 2020 (calculated based on @population). That is, the estimand or quantity of concern in this analysis is voter ID access barriers faced by individuals in Harris County [@tellingstorieswithdata].
 
+As discussed in @sec-data, replication data [@voteriddata] from @voterid was used to examine the most common impediments to acquiring voter ID in Harris County, Texas. In @sec-results, it was found that approximately 10\% of RID-filers in Harris County listed lack of transportation as their voter ID impediment, that approximately 37\% of Harris County RID-filers had a grouped voter ID impediment of hardship (e.g., lacking transportation or documentation, having work or family obligations, or having a disability or illness), and that approximately 39\% of Black Harris County RID-filers experienced a grouped voter ID impediment of hardship. The discussion of these results in @sec-discussion using Texas-wide data from @sec-appendix indicated that lack of transportation was an overrepresented impediment in Harris County compared to Texas at large, that hardship was an overrepresented grouped impediment in Harris County, and that hardship among Black RID-filers was overrepresented in Harris County. Possible contributors to these findings, including health and public transit concerns, were also described in @sec-discussion. This suggests that ways of mitigating these issues, such as enhancing public transit access and improving public health, should be explored. This paper consists of @sec-data, which describes the data and its measurement; @sec-results, which contains the results; @sec-discussion, which discusses the results alongside weaknesses and next steps; and @sec-appendix, which contains Texas-wide results and supplementary information.
 
 # Data {#sec-data}
 
@@ -51,11 +53,11 @@ reasons_data_harris <- read_csv(here::here("data/replication/reasons_data_harris
 
 This report explores replication data [@voteriddata] associated with the article *Who Do Voter ID Laws Keep from Voting?* by @voterid. This data, along with associated code, was uploaded by the authors to The Journal of Politics Dataverse [@voteriddata] to allow others to replicate aspects of the article such as graphs and tables. By facilitating the reproduction of the authors' findings, this data [@voteriddata] contributes to the reliability and authenticity of the contents of the article [@tellingstorieswithdata] and its conclusions.
 
-The data from @voteriddata includes both county- and voter-level variables from Texas in 2016. First, the county-level variables include the proportions of Black and Hispanic people, the proportions of individuals aged 18 to 24 and 75 and over, the proportion of people who voted for Barack Obama in the 2012 United States (US) presidential election (excluding third-party candidates), the proportion of non-college educated individuals, the rate of reasonable impediment declaration (RID) usage in 2016 (which allowed individuals without mandatory voter ID to vote using non-voter ID such as a birth certificate), the rate of ID-capable individuals (i.e., RID-filers who did not have their voter ID on hand as they forgot it, lost it, or withheld it in a defiant manner), the rates of relocation and hardship faced by individuals, and median household income [@voteriddata; @voterid]. Second, the voter-level variables were collected from RID submissions and include the county of each RID-filer, the issue or impediment that prevented each filer from acquiring voter ID (as well as grouped impediments such as relocation, hardship, and being ID-capable), the age and race of each filer, whether or not each filer was female, and the type of non-voter ID used by each filer [@voteriddata; @voterid].
+The data from @voteriddata includes both county- and voter-level variables from Texas in 2016. First, the county-level variables include the proportions of Black and Hispanic people, the proportions of individuals aged 18 to 24 and 75 and over, the proportion of people who voted for Barack Obama in the 2012 United States presidential election (excluding third-party candidates), the proportion of non-college educated individuals, the rate of RID usage in 2016, the rate of ID-capable individuals (i.e., RID-filers who did not have their voter ID on hand as they forgot it, lost it, or withheld it in a defiant manner), the rates of relocation (e.g., applying but not yet receiving voter ID) and hardship faced by individuals, and median household income [@voteriddata; @voterid]. Second, the voter-level variables were collected from RID submissions and include the county of each RID-filer, the issue or impediment that prevented each filer from acquiring voter ID (as well as grouped impediments such as relocation, hardship, and being ID-capable), the age and predicted race of each filer, whether or not each filer was female, and the type of non-voter ID used by each filer [@voteriddata; @voterid].
 
-With respect to measurement, the authors collected the voter-level RID documents by submitting a Texas Public Information Act request [@voterid]. This yielded 16,097 RID documents, each of which included the filer's self-reported voter ID impediment, the type of non-voter ID used by the filer, and the filer's name [@voterid]. These RID documents were filed by individuals at their polling location [@voterid], and the data from the RID documents was organized electronically by @voterid. The authors then cross-referenced this RID data with Texas secretary of state voter registration data, which contained more personal details about each filer compared to the RID documents [@voterid]. Afterward, the authors used the filers' personal details as well as other demographic and geographic resources to predict their race as the voter registration data only stated if a family name was Spanish or not [@voterid]. Moreover, the authors obtained demographic county-related data from the 2015 US Census American Community Survey and used imputation to fill in missing data from one of the counties [@voterid].
+With respect to measurement, the authors collected the voter-level RID documents by submitting a Texas Public Information Act request [@voterid]. This yielded 16,097 RID documents, each of which included the filer's self-reported voter ID impediment, the type of non-voter ID used by the filer, and the filer's name [@voterid]. These RID documents were filed by individuals at their polling location [@voterid], and the data from the RID documents was organized electronically by @voterid. The authors then cross-referenced this RID data with Texas secretary of state voter registration data, which contained more personal details about each filer compared to the RID documents [@voterid]. Afterward, @voterid used the filers' personal details (e.g., their surnames) as well as other demographic and geographic resources to predict their races as the voter registration data only stated if a family name was Spanish or not [@voterid]. Moreover, the authors obtained demographic county-related data from the 2015 US Census American Community Survey and used imputation to fill in missing data from one of the counties [@voterid].
 
-Since this analysis exclusively focuses on the voter-level RID-filer data, which could only be accessed by the authors through a formal request [@voterid], other similar datasets could not be used to generate this report. After downloading the data with the R programming language [@citeR] and the `tidyverse` [@citetidyverse], `haven` [@citehaven], and `labelled` [@citelabelled] packages, the `tidyverse` [@citetidyverse] package was employed in order to clean and filter the data. In doing so, a new variable was created to indicate whether or not each individual was White. Finally, the `tidyverse` [@citetidyverse] and `here` [@citehere] packages were used to filter the data to only include entries from Harris County, Texas, and the `tidyverse` [@citetidyverse] package was used to create graphs in this section.
+Since this analysis exclusively focuses on the voter-level RID-filer data, which could only be accessed by the authors through a formal request [@voterid], other similar datasets could not be used to generate this report. After downloading the data with the R programming language [@citeR] and the `tidyverse` [@citetidyverse], `haven` [@citehaven], and `labelled` [@citelabelled] packages, the `tidyverse` [@citetidyverse] package was employed in order to clean and filter the data. In doing so, a new variable was created to indicate whether or not each individual was White. Finally, the `tidyverse` [@citetidyverse] and `here` [@citehere] packages were used to load the data into the R programming language [@citeR], and the `tidyverse` [@citetidyverse] package was used to create the graph in this section.
 
 ```{r}
 #| echo: false
@@ -91,10 +93,10 @@ fig_races <-
   theme_classic() +
   labs(x = "Race", y = "Percentage") +
   coord_flip() +
-  # The geom_text function used to add the labels to the graph was obtained from
+  # The geom_text function used to add the labels to the graph was acquired from
   # R Graphics Cookbook:
   # https://r-graphics.org/recipe-bar-graph-labels
-  # The hjust argument used to align the labels was obtained from
+  # The hjust argument used to align the labels was acquired from
   # Cédric Scherer's website:
   # https://www.cedricscherer.com/2021/07/05/a-quick-how-to-on-labelling-bar-graphs-in-ggplot2/
   geom_text(aes(label = fig_races_data$label),
@@ -102,7 +104,7 @@ fig_races <-
             colour = "red",
             size = 3) +
   # The expand_limits function used to change the upper limit of the percent
-  # axis's scale was obtained from the tidyverse ggplot2 website:
+  # axis's scale was acquired from the tidyverse ggplot2 website:
   # https://ggplot2.tidyverse.org/reference/expand_limits.html
   expand_limits(y = 50)
 
@@ -158,10 +160,10 @@ fig_impediments <-
   theme_classic() +
   labs(x = "Impediment to voter ID", y = "Percentage") +
   coord_flip() +
-  # The geom_text function used to add the labels to the graph was obtained from
+  # The geom_text function used to add the labels to the graph was acquired from
   # R Graphics Cookbook:
   # https://r-graphics.org/recipe-bar-graph-labels
-  # The hjust argument used to align the labels was obtained from
+  # The hjust argument used to align the labels was acquired from
   # Cédric Scherer's website:
   # https://www.cedricscherer.com/2021/07/05/a-quick-how-to-on-labelling-bar-graphs-in-ggplot2/
   geom_text(aes(label = fig_impediments_data$label),
@@ -169,7 +171,7 @@ fig_impediments <-
             colour = "red",
             size = 3) +
   # The expand_limits function used to change the upper limit of the percent
-  # axis's scale was obtained from the tidyverse ggplot2 website:
+  # axis's scale was acquired from the tidyverse ggplot2 website:
   # https://ggplot2.tidyverse.org/reference/expand_limits.html
   expand_limits(y = 40)
 
@@ -211,10 +213,10 @@ fig_grouped_impediments <-
   theme_classic() +
   labs(x = "Impediment to voter ID", y = "Percentage") +
   coord_flip() +
-  # The geom_text function used to add the labels to the graph was obtained from
+  # The geom_text function used to add the labels to the graph was acquired from
   # R Graphics Cookbook:
   # https://r-graphics.org/recipe-bar-graph-labels
-  # The hjust argument used to align the labels was obtained from
+  # The hjust argument used to align the labels was acquired from
   # Cédric Scherer's website:
   # https://www.cedricscherer.com/2021/07/05/a-quick-how-to-on-labelling-bar-graphs-in-ggplot2/
   geom_text(aes(label = fig_grouped_impediments_data$label),
@@ -222,7 +224,7 @@ fig_grouped_impediments <-
             colour = "red",
             size = 3) +
   # The expand_limits function used to change the upper limit of the percent
-  # axis's scale was obtained from the tidyverse ggplot2 website:
+  # axis's scale was acquired from the tidyverse ggplot2 website:
   # https://ggplot2.tidyverse.org/reference/expand_limits.html
   expand_limits(y = 40)
 
@@ -230,7 +232,7 @@ fig_grouped_impediments <-
 fig_grouped_impediments
 ```
 
-@fig-grouped-impediments shows that the largest grouped voter ID impediment for Harris County, Texas RID-filers in 2016 was hardship (approximately 37\%). This was followed by being ID-capable (approximately 32\%), which refers to RID-filers who did not have their voter ID on hand as they forgot it, lost it, or withheld it in a defiant manner [@voterid]. Finally, 27\% of RID-filers' impediment to voter ID was relocation.
+@fig-grouped-impediments shows that the largest grouped voter ID impediment for Harris County, Texas RID-filers in 2016 was hardship (approximately 37\%). This was followed by being ID-capable (approximately 32\%) and relocation (approximately 27\%).
 
 ```{r}
 #| echo: false
@@ -269,10 +271,10 @@ fig_grouped_impediments_race_white <-
   labs(x = "Impediment to voter ID", y = "Percentage") +
   scale_x_discrete(limits = c("ID-Capable", "Hardship", "Relocation")) +
   coord_flip() +
-  # The geom_text function used to add the labels to the graph was obtained from
+  # The geom_text function used to add the labels to the graph was acquired from
   # R Graphics Cookbook:
   # https://r-graphics.org/recipe-bar-graph-labels
-  # The hjust argument used to align the labels was obtained from
+  # The hjust argument used to align the labels was acquired from
   # Cédric Scherer's website:
   # https://www.cedricscherer.com/2021/07/05/a-quick-how-to-on-labelling-bar-graphs-in-ggplot2/
   geom_text(aes(label = fig_grouped_impediments_race_data_white$label),
@@ -281,7 +283,7 @@ fig_grouped_impediments_race_white <-
             size = 2) +
   ggtitle("White") +
   # The expand_limits function used to change the upper limit of the percent
-  # axis's scale was obtained from the tidyverse ggplot2 website:
+  # axis's scale was acquired from the tidyverse ggplot2 website:
   # https://ggplot2.tidyverse.org/reference/expand_limits.html
   expand_limits(y = 50)
 
@@ -314,10 +316,10 @@ fig_grouped_impediments_race_black <-
   labs(x = "Impediment to voter ID", y = "Percentage") +
   scale_x_discrete(limits = c("ID-Capable", "Hardship", "Relocation")) +
   coord_flip() +
-  # The geom_text function used to add the labels to the graph was obtained from
+  # The geom_text function used to add the labels to the graph was acquired from
   # R Graphics Cookbook:
   # https://r-graphics.org/recipe-bar-graph-labels
-  # The hjust argument used to align the labels was obtained from
+  # The hjust argument used to align the labels was acquired from
   # Cédric Scherer's website:
   # https://www.cedricscherer.com/2021/07/05/a-quick-how-to-on-labelling-bar-graphs-in-ggplot2/
   geom_text(aes(label = fig_grouped_impediments_race_data_black$label),
@@ -326,7 +328,7 @@ fig_grouped_impediments_race_black <-
             size = 2) +
   ggtitle("Black") +
   # The expand_limits function used to change the upper limit of the percent
-  # axis's scale was obtained from the tidyverse ggplot2 website:
+  # axis's scale was acquired from the tidyverse ggplot2 website:
   # https://ggplot2.tidyverse.org/reference/expand_limits.html
   expand_limits(y = 50)
 
@@ -359,10 +361,10 @@ fig_grouped_impediments_race_latinx <-
   labs(x = "Impediment to voter ID", y = "Percentage") +
   scale_x_discrete(limits = c("ID-Capable", "Hardship", "Relocation")) +
   coord_flip() +
-  # The geom_text function used to add the labels to the graph was obtained from
+  # The geom_text function used to add the labels to the graph was acquired from
   # R Graphics Cookbook:
   # https://r-graphics.org/recipe-bar-graph-labels
-  # The hjust argument used to align the labels was obtained from
+  # The hjust argument used to align the labels was acquired from
   # Cédric Scherer's website:
   # https://www.cedricscherer.com/2021/07/05/a-quick-how-to-on-labelling-bar-graphs-in-ggplot2/
   geom_text(aes(label = fig_grouped_impediments_race_data_latinx$label),
@@ -371,7 +373,7 @@ fig_grouped_impediments_race_latinx <-
             size = 2) +
   ggtitle("Latinx") +
   # The expand_limits function used to change the upper limit of the percent
-  # axis's scale was obtained from the tidyverse ggplot2 website:
+  # axis's scale was acquired from the tidyverse ggplot2 website:
   # https://ggplot2.tidyverse.org/reference/expand_limits.html
   expand_limits(y = 50)
 
@@ -388,18 +390,51 @@ fig_grouped_impediments_race
 
 @fig-grouped-impediments-race illustrates that the largest grouped voter ID impediment for White Harris County, Texas RID-filers in 2016 was hardship (approximately 40\%), followed by being ID-capable (approximately 30\%) and relocation (approximately 26\%). In addition, the largest grouped voter ID impediment for Black Harris County, Texas RID-filers in 2016 was hardship (approximately 39\%), followed by being ID-capable (approximately 33\%) and relocation (approximately 26\%). Finally, the largest grouped voter ID impediment for Latinx Harris County, Texas RID-filers in 2016 was being ID-capable (approximately 48\%), followed by hardship (approximately 30\%) and relocation (approximately 17\%).
 
+# Discussion {#sec-discussion}
 
+In this report, data from @voteriddata was used to assess voter ID impediments faced by RID-filers in Harris County, Texas in 2016. To do this, the data was loaded, cleaned, and graphed as discussed in @sec-data.
 
-# Discussion
+## Lack of transportation was an overrepresented impediment in Harris County
 
+In @sec-results, it was found that approximately 10\% of RID-filers in Harris County listed lack of transportation as their voter ID impediment (@fig-impediments). Conversely, in Texas at large, lack of transportation was only listed on approximately 7\% of RID documents (@fig-2). In 2015, the Houston bus transit system, which services large segments of Harris County [@citemetro], was broadened to include more frequent busing between different locations in Houston [@voxhouston]. However, this change increased the distance to a transit stop for a number of individuals [@voxhouston]. Consequently, it is possible that this side effect of the Houston transit overhaul contributed to the higher lack of transportation voter ID impediment rate observed in Harris County compared to Texas as a whole.
+
+## Hardship was an overrepresented grouped impediment in Harris County
+
+Based on @sec-results, approximately 37\% of Harris County RID-filers had a grouped voter ID impediment of hardship (@fig-grouped-impediments). However, the statewide rate of hardship was only approximately 33\% (@fig-3). As per @voterid, hardship includes a lack of transportation or documentation, work or family obligations, and disability or illness. The rate of hardship among Harris County residents has likely only been further exacerbated by recent health trends. For instance, 23\% of Harris County adults reported "poor" or "fair" health in 2019, and approximately 30\% of below-$25,000-per-year-earning adults experienced obesity in 2016 [@harrishealth]. As a result, this confluence of health and financial issues likely continues to increase hardship among Harris County residents, ultimately limiting their ability to obtain voter ID.
+
+## Hardship among Black RID-filers was overrepresented in Harris County
+
+@sec-results indicates that approximately 39\% of Black Harris County RID-filers experienced a grouped voter ID impediment of hardship (@fig-grouped-impediments-race). This is noticeably greater than the rate of hardship among Black RID-filers in Texas overall, which was approximately 34\% (@fig-a2). In 2016, approximately 47\% of Black Harris County adults experienced obesity, and data from 2018 to 2020 indicates that Black people had a premature death rate approximately 1.5 times greater than that for White people in Harris County [@harrishealth]. These factors likely contributed to the hardship faced by Black RID-filers in 2016, reducing their capability to procure voter ID.
+
+## Weaknesses, bias, and ethics
+
+This investigation was prone to several weaknesses. First, as described in @sec-data, the races of the RID-filers ("White", "Black", "Latinx", etc.) were predicted based on personal details like family name and external sources such as demographic and geographic resources rather than directly observed [@voterid]. This means that the race-based data analyzed in previous sections of this report may not have been fully accurate, likely leading to biased results in @sec-results. Second, similar to what is described in @voterid, the RID documentation did not capture data from individuals who did not vote or visit a polling station. This presumably contributed to bias in the data as the impediments to obtaining voter ID in Harris County were likely undercounted. With respect to ethics, it is unclear as to whether the RID-filers consented to the release of these documents based on @voterid. This is especially concerning given that each filer's signature and name was provided on their RID document [@voterid]. Namely, the release of these RID documents to the researchers may have violated the filers' right to privacy by limiting their control of their sensitive details without consent [@privacy].
+
+## Next steps
+
+Future research should examine barriers to voter ID access in other Texas counties and voting difficulties in other US states to shed additional light on the challenges faced by eligible adults when seeking to vote. This could include focusing on voting access in swing states (i.e., states with outsized importance in US presidential elections), such as Pennsylvania and Arizona [@swingstates]. Moreover, future research should investigate methods of mitigating the voter ID barriers faced by Harris County residents, such as enhanced public transit access and improved public health.
 
 \appendix
 
 \newpage
 
-# Appendix {-}
+# Appendix {#sec-appendix}
 
-# Additional data details
+## Sketches {#sec-sketches}
+
+Sketches of the data and graphs are available in the GitHub Repository associated with this report.
+
+## Simulation {#sec-simulation}
+
+A script containing data simulation is available in the GitHub Repository associated with this report. This script was generated using the R programming language [@citeR] and the `janitor` [@citejanitor] and `tidyverse` [@citetidyverse] packages.
+
+## Tests {#sec-tests}
+
+The simulated and actual data were tested using the R programming language [@citeR] and the `tidyverse` [@citetidyverse] package. Scripts containing the testing code are available in the GitHub Repository associated with this report.
+
+## Texas-wide results {#sec-texas-wide-results}
+
+The graphs in this section were created with the R programming language [@citeR] and the `tidyverse` [@citetidyverse] and `patchwork` [@citepatchwork] packages. @tellingstorieswithdata was used as a resource during this process.
 
 ```{r}
 #| echo: false
@@ -443,10 +478,10 @@ figure_2_replication <-
   theme_classic() +
   labs(x = "Impediment to voter ID", y = "Percentage") +
   coord_flip() +
-  # The geom_text function used to add the labels to the graph was obtained from
+  # The geom_text function used to add the labels to the graph was acquired from
   # R Graphics Cookbook:
   # https://r-graphics.org/recipe-bar-graph-labels
-  # The hjust argument used to align the labels was obtained from
+  # The hjust argument used to align the labels was acquired from
   # Cédric Scherer's website:
   # https://www.cedricscherer.com/2021/07/05/a-quick-how-to-on-labelling-bar-graphs-in-ggplot2/
   geom_text(aes(label = figure_2_data$label),
@@ -454,13 +489,15 @@ figure_2_replication <-
             colour = "red",
             size = 3) +
   # The expand_limits function used to change the upper limit of the percent
-  # axis's scale was obtained from the tidyverse ggplot2 website:
+  # axis's scale was acquired from the tidyverse ggplot2 website:
   # https://ggplot2.tidyverse.org/reference/expand_limits.html
   expand_limits(y = 40)
 
 # Displaying the replicated graph
 figure_2_replication
 ```
+
+@fig-2 illustrates that the largest voter ID impediment for Texas RID-filers in 2016 was lost or stolen ID (approximately 27\%). This was followed by work obligations (approximately 12\%), disability or illness (approximately 8\%), lack of necessary documents (approximately 7\%), lack of transportation (approximately 7\%), an ongoing application process (approximately 6\%), and family obligations (approximately 4\%). Approximately 36\% of RID-filers provided a different reason for not being able to acquire voter ID.
 
 ```{r}
 #| echo: false
@@ -496,10 +533,10 @@ figure_3_replication <-
   theme_classic() +
   labs(x = "Impediment to voter ID", y = "Percentage") +
   coord_flip() +
-  # The geom_text function used to add the labels to the graph was obtained from
+  # The geom_text function used to add the labels to the graph was acquired from
   # R Graphics Cookbook:
   # https://r-graphics.org/recipe-bar-graph-labels
-  # The hjust argument used to align the labels was obtained from
+  # The hjust argument used to align the labels was acquired from
   # Cédric Scherer's website:
   # https://www.cedricscherer.com/2021/07/05/a-quick-how-to-on-labelling-bar-graphs-in-ggplot2/
   geom_text(aes(label = figure_3_data$label),
@@ -507,13 +544,15 @@ figure_3_replication <-
             colour = "red",
             size = 3) +
   # The expand_limits function used to change the upper limit of the percent
-  # axis's scale was obtained from the tidyverse ggplot2 website:
+  # axis's scale was acquired from the tidyverse ggplot2 website:
   # https://ggplot2.tidyverse.org/reference/expand_limits.html
   expand_limits(y = 40)
 
 # Displaying the replicated graph
 figure_3_replication
 ```
+
+@fig-3 shows that the largest grouped voter ID impediment for Texas RID-filers in 2016 was hardship (approximately 33\%). This was followed by being ID-capable (approximately 31\%) and relocation (approximately 29\%).
 
 ```{r}
 #| echo: false
@@ -554,10 +593,10 @@ figure_a2_white_replication <-
   labs(x = "Impediment to voter ID", y = "Percentage") +
   scale_x_discrete(limits = c("ID-Capable", "Hardship", "Relocation")) +
   coord_flip() +
-  # The geom_text function used to add the labels to the graph was obtained from
+  # The geom_text function used to add the labels to the graph was acquired from
   # R Graphics Cookbook:
   # https://r-graphics.org/recipe-bar-graph-labels
-  # The hjust argument used to align the labels was obtained from
+  # The hjust argument used to align the labels was acquired from
   # Cédric Scherer's website:
   # https://www.cedricscherer.com/2021/07/05/a-quick-how-to-on-labelling-bar-graphs-in-ggplot2/
   geom_text(aes(label = figure_a2_data_white$label),
@@ -566,7 +605,7 @@ figure_a2_white_replication <-
             size = 2) +
   ggtitle("White") +
   # The expand_limits function used to change the upper limit of the percent
-  # axis's scale was obtained from the tidyverse ggplot2 website:
+  # axis's scale was acquired from the tidyverse ggplot2 website:
   # https://ggplot2.tidyverse.org/reference/expand_limits.html
   expand_limits(y = 45)
 
@@ -599,10 +638,10 @@ figure_a2_black_replication <-
   labs(x = "Impediment to voter ID", y = "Percentage") +
   scale_x_discrete(limits = c("ID-Capable", "Hardship", "Relocation")) +
   coord_flip() +
-  # The geom_text function used to add the labels to the graph was obtained from
+  # The geom_text function used to add the labels to the graph was acquired from
   # R Graphics Cookbook:
   # https://r-graphics.org/recipe-bar-graph-labels
-  # The hjust argument used to align the labels was obtained from
+  # The hjust argument used to align the labels was acquired from
   # Cédric Scherer's website:
   # https://www.cedricscherer.com/2021/07/05/a-quick-how-to-on-labelling-bar-graphs-in-ggplot2/
   geom_text(aes(label = figure_a2_data_black$label),
@@ -611,7 +650,7 @@ figure_a2_black_replication <-
             size = 2) +
   ggtitle("Black") +
   # The expand_limits function used to change the upper limit of the percent
-  # axis's scale was obtained from the tidyverse ggplot2 website:
+  # axis's scale was acquired from the tidyverse ggplot2 website:
   # https://ggplot2.tidyverse.org/reference/expand_limits.html
   expand_limits(y = 45)
 
@@ -644,10 +683,10 @@ figure_a2_latinx_replication <-
   labs(x = "Impediment to voter ID", y = "Percentage") +
   scale_x_discrete(limits = c("ID-Capable", "Hardship", "Relocation")) +
   coord_flip() +
-  # The geom_text function used to add the labels to the graph was obtained from
+  # The geom_text function used to add the labels to the graph was acquired from
   # R Graphics Cookbook:
   # https://r-graphics.org/recipe-bar-graph-labels
-  # The hjust argument used to align the labels was obtained from
+  # The hjust argument used to align the labels was acquired from
   # Cédric Scherer's website:
   # https://www.cedricscherer.com/2021/07/05/a-quick-how-to-on-labelling-bar-graphs-in-ggplot2/
   geom_text(aes(label = figure_a2_data_latinx$label),
@@ -656,7 +695,7 @@ figure_a2_latinx_replication <-
             size = 2) +
   ggtitle("Latinx") +
   # The expand_limits function used to change the upper limit of the percent
-  # axis's scale was obtained from the tidyverse ggplot2 website:
+  # axis's scale was acquired from the tidyverse ggplot2 website:
   # https://ggplot2.tidyverse.org/reference/expand_limits.html
   expand_limits(y = 45)
 
@@ -671,21 +710,8 @@ figure_a2_replication <- figure_a2_replication +
 figure_a2_replication
 ```
 
-# Sketches {#sec-sketches}
-
-Sketches of the data and graphs are available in the GitHub Repository associated with this report.
-
-# Simulation {#sec-simulation}
-
-A script containing data simulation is available in the GitHub Repository associated with this report. This script was generated using the R programming language [@citeR] and the `janitor` [@citejanitor] and `tidyverse` [@citetidyverse] packages.
-
-# Tests {#sec-tests}
-
-The simulated and actual data were tested using the R programming language [@citeR] and the `tidyverse` [@citetidyverse] package. Scripts containing the testing code are available in the GitHub Repository associated with this report.
+@fig-a2 illustrates that the largest grouped voter ID impediment for White Texas RID-filers in 2016 was hardship (approximately 33\%), followed by relocation (approximately 32\%) and being ID-capable (approximately 28\%). In addition, the largest grouped voter ID impediment for Black Texas RID-filers in 2016 was being ID-capable (approximately 34\%), followed by hardship (approximately 34\%) and relocation (approximately 28\%). Finally, the largest grouped voter ID impediment for Latinx Texas RID-filers in 2016 was being ID-capable (approximately 44\%), followed by hardship (approximately 32\%) and relocation (approximately 17\%).
 
 \newpage
 
-
 # References
-
-

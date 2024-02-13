@@ -1,4 +1,5 @@
 #### Preamble ####
+
 # Purpose: Replication of graphs from the paper "Who Do Voter ID Laws
 # Keep from Voting?" (Fraga and Miller 2022).
 # Author: Benny Rochwerg
@@ -57,10 +58,10 @@ figure_2_replication <-
   labs(x = "Impediment to voter ID", y = "Percentage",
        title = "Figure 2. Impediments cited by Texas voters in 2016") +
   coord_flip() +
-  # The geom_text function used to add the labels to the graph was obtained from
+  # The geom_text function used to add the labels to the graph was acquired from
   # R Graphics Cookbook:
   # https://r-graphics.org/recipe-bar-graph-labels
-  # The hjust argument used to align the labels was obtained from
+  # The hjust argument used to align the labels was acquired from
   # Cédric Scherer's website:
   # https://www.cedricscherer.com/2021/07/05/a-quick-how-to-on-labelling-bar-graphs-in-ggplot2/
   geom_text(aes(label = figure_2_data$label),
@@ -68,7 +69,7 @@ figure_2_replication <-
             colour = "red",
             size = 3) +
   # The expand_limits function used to change the upper limit of the percent
-  # axis's scale was obtained from the tidyverse ggplot2 website:
+  # axis's scale was acquired from the tidyverse ggplot2 website:
   # https://ggplot2.tidyverse.org/reference/expand_limits.html
   expand_limits(y = 40)
 
@@ -102,10 +103,10 @@ figure_3_replication <-
   labs(x = "Impediment to voter ID", y = "Percentage",
        title = "Figure 3. Binned impediments cited") +
   coord_flip() +
-  # The geom_text function used to add the labels to the graph was obtained from
+  # The geom_text function used to add the labels to the graph was acquired from
   # R Graphics Cookbook:
   # https://r-graphics.org/recipe-bar-graph-labels
-  # The hjust argument used to align the labels was obtained from
+  # The hjust argument used to align the labels was acquired from
   # Cédric Scherer's website:
   # https://www.cedricscherer.com/2021/07/05/a-quick-how-to-on-labelling-bar-graphs-in-ggplot2/
   geom_text(aes(label = figure_3_data$label),
@@ -113,7 +114,7 @@ figure_3_replication <-
             colour = "red",
             size = 3) +
   # The expand_limits function used to change the upper limit of the percent
-  # axis's scale was obtained from the tidyverse ggplot2 website:
+  # axis's scale was acquired from the tidyverse ggplot2 website:
   # https://ggplot2.tidyverse.org/reference/expand_limits.html
   expand_limits(y = 40)
 
@@ -151,10 +152,10 @@ figure_a2_white_replication <-
   labs(x = "Impediment to voter ID", y = "Percentage") +
   scale_x_discrete(limits = c("ID-Capable", "Hardship", "Relocation")) +
   coord_flip() +
-  # The geom_text function used to add the labels to the graph was obtained from
+  # The geom_text function used to add the labels to the graph was acquired from
   # R Graphics Cookbook:
   # https://r-graphics.org/recipe-bar-graph-labels
-  # The hjust argument used to align the labels was obtained from
+  # The hjust argument used to align the labels was acquired from
   # Cédric Scherer's website:
   # https://www.cedricscherer.com/2021/07/05/a-quick-how-to-on-labelling-bar-graphs-in-ggplot2/
   geom_text(aes(label = figure_a2_data_white$label),
@@ -163,7 +164,7 @@ figure_a2_white_replication <-
             size = 2) +
   ggtitle("White") +
   # The expand_limits function used to change the upper limit of the percent
-  # axis's scale was obtained from the tidyverse ggplot2 website:
+  # axis's scale was acquired from the tidyverse ggplot2 website:
   # https://ggplot2.tidyverse.org/reference/expand_limits.html
   expand_limits(y = 45)
 
@@ -196,10 +197,10 @@ figure_a2_black_replication <-
   labs(x = "Impediment to voter ID", y = "Percentage") +
   scale_x_discrete(limits = c("ID-Capable", "Hardship", "Relocation")) +
   coord_flip() +
-  # The geom_text function used to add the labels to the graph was obtained from
+  # The geom_text function used to add the labels to the graph was acquired from
   # R Graphics Cookbook:
   # https://r-graphics.org/recipe-bar-graph-labels
-  # The hjust argument used to align the labels was obtained from
+  # The hjust argument used to align the labels was acquired from
   # Cédric Scherer's website:
   # https://www.cedricscherer.com/2021/07/05/a-quick-how-to-on-labelling-bar-graphs-in-ggplot2/
   geom_text(aes(label = figure_a2_data_black$label),
@@ -208,7 +209,7 @@ figure_a2_black_replication <-
             size = 2) +
   ggtitle("Black") +
   # The expand_limits function used to change the upper limit of the percent
-  # axis's scale was obtained from the tidyverse ggplot2 website:
+  # axis's scale was acquired from the tidyverse ggplot2 website:
   # https://ggplot2.tidyverse.org/reference/expand_limits.html
   expand_limits(y = 45)
 
@@ -241,10 +242,10 @@ figure_a2_latinx_replication <-
   labs(x = "Impediment to voter ID", y = "Percentage") +
   scale_x_discrete(limits = c("ID-Capable", "Hardship", "Relocation")) +
   coord_flip() +
-  # The geom_text function used to add the labels to the graph was obtained from
+  # The geom_text function used to add the labels to the graph was acquired from
   # R Graphics Cookbook:
   # https://r-graphics.org/recipe-bar-graph-labels
-  # The hjust argument used to align the labels was obtained from
+  # The hjust argument used to align the labels was acquired from
   # Cédric Scherer's website:
   # https://www.cedricscherer.com/2021/07/05/a-quick-how-to-on-labelling-bar-graphs-in-ggplot2/
   geom_text(aes(label = figure_a2_data_latinx$label),
@@ -253,7 +254,7 @@ figure_a2_latinx_replication <-
             size = 2) +
   ggtitle("Latinx") +
   # The expand_limits function used to change the upper limit of the percent
-  # axis's scale was obtained from the tidyverse ggplot2 website:
+  # axis's scale was acquired from the tidyverse ggplot2 website:
   # https://ggplot2.tidyverse.org/reference/expand_limits.html
   expand_limits(y = 45)
 
