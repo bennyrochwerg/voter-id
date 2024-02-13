@@ -16,8 +16,8 @@ library(tidyverse)
 #### Cleaning the Dataset ####
 
 # Loading the reproduction package data
-county_data_reproduction <- read_csv("data/replication/county_data_reproduction.csv")
-reasons_data_reproduction <- read_csv("data/replication/reasons_data_reproduction.csv")
+county_data_reproduction <- read_csv("data/reproduction/county_data_reproduction.csv")
+reasons_data_reproduction <- read_csv("data/reproduction/reasons_data_reproduction.csv")
 
 # Selecting only the necessary columns from the reproduction package data
 reasons_data_cleaned <- reasons_data_reproduction |>
@@ -28,11 +28,11 @@ reasons_data_cleaned <- reasons_data_reproduction |>
 #### Saving the Cleaned Dataset ####
 
 # Saving the Texas data
-write_csv(reasons_data_cleaned, "data/replication/reasons_data_cleaned.csv")
+write_csv(reasons_data_cleaned, "data/reproduction/reasons_data_cleaned.csv")
 
 # Filtering the data to only include Harris County
 reasons_data_harris <- reasons_data_cleaned |>
   filter(county == "HARRIS")
 
 # Saving the Harris County data
-write_csv(reasons_data_harris, "data/replication/reasons_data_harris.csv")
+write_csv(reasons_data_harris, "data/reproduction/reasons_data_harris.csv")

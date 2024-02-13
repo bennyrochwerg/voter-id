@@ -21,7 +21,7 @@ library(patchwork)
 #### Replicating the Graphs ####
 
 # Loading the cleaned data
-reasons_data_cleaned <- read_csv("data/replication/reasons_data_cleaned.csv")
+reasons_data_cleaned <- read_csv("data/reproduction/reasons_data_cleaned.csv")
 
 # Replication of Figure 2 from the paper (Fraga and Miller 2022)
 

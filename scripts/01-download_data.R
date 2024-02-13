@@ -39,5 +39,5 @@ reasons_data_reproduction <- to_factor(reasons_data_reproduction)
 
 #### Saving the Dataset ####
 
-write_csv(county_data_reproduction, "data/replication/county_data_reproduction.csv")
-write_csv(reasons_data_reproduction, "data/replication/reasons_data_reproduction.csv")
+write_csv(county_data_reproduction, "data/reproduction/county_data_reproduction.csv")
+write_csv(reasons_data_reproduction, "data/reproduction/reasons_data_reproduction.csv")

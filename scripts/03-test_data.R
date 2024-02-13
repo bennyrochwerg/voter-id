@@ -19,7 +19,7 @@ library(tidyverse)
 # These tests were written in the "00-simulate_data.R" file.
 
 # Loading the Harris County data
-reasons_data_harris <- read_csv("data/replication/reasons_data_harris.csv")
+reasons_data_harris <- read_csv("data/reproduction/reasons_data_harris.csv")
 
 # Checking the column classes
 reasons_data_harris$county |> class() == "character"
