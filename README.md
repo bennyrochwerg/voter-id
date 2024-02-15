@@ -11,7 +11,7 @@ Some of the R code employed here was adapted from Alexander (2023).
 - `data/replication` contains replication data provided by the authors in the package (see the Data Access section below for more information).
 - `data/reproduction` contains code used in the report and associated scripts.
 - `other/sketches` contains sketches of the main data and graphs produced in the report.
-- `other/ssrp_report` contains the Quarto file used to generate the report attached to the SSRP submission (https://www.socialsciencereproduction.org/reproductions/c0801c33-77d8-4be2-ad60-fa21826856ca/index) as well as the report itself in PDF format.
+- `other/ssrp_report` contains the Quarto file used to generate the report attached to the SSRP submission (https://doi.org/10.48152/ssrp-66sw-gk97) as well as the report itself in PDF format.
 - `paper` contains the Quarto file used to generate the paper, the references file used to create the paper, and the paper itself in PDF format.
 - `scripts` contains the R scripts used to simulate data, download data, clean data, test data, and replicate graphs.
 
