@@ -53,7 +53,7 @@ figure_2_replication <-
   ggplot(mapping = aes(x = reorder(figure_2_data$reason, figure_2_data$percent,
                                    decreasing = TRUE),
                        y = figure_2_data$percent)) +
-  geom_col() +
+  geom_col(fill = "turquoise") +
   theme_classic() +
   labs(x = "Impediment to voter ID", y = "Percentage",
        title = "Figure 2. Impediments cited by Texas voters in 2016") +
@@ -98,7 +98,7 @@ figure_3_replication <-
   ggplot(mapping = aes(x = reorder(figure_3_data$reason, figure_3_data$percent,
                                    decreasing = TRUE),
                        y = figure_3_data$percent)) +
-  geom_col() +
+  geom_col(fill = "orange") +
   theme_classic() +
   labs(x = "Impediment to voter ID", y = "Percentage",
        title = "Figure 3. Binned impediments cited") +
@@ -147,7 +147,7 @@ figure_a2_data_white <- figure_a2_data_white |>
 figure_a2_white_replication <-
   ggplot(mapping = aes(x = figure_a2_data_white$reason,
                        y = figure_a2_data_white$percent)) +
-  geom_col() +
+  geom_col(fill = "darkgreen") +
   theme_classic() +
   labs(x = "Impediment to voter ID", y = "Percentage") +
   scale_x_discrete(limits = c("ID-Capable", "Hardship", "Relocation")) +
@@ -237,7 +237,7 @@ figure_a2_data_latinx <- figure_a2_data_latinx |>
 figure_a2_latinx_replication <-
   ggplot(mapping = aes(x = figure_a2_data_latinx$reason,
                        y = figure_a2_data_latinx$percent)) +
-  geom_col() +
+  geom_col(fill = "salmon") +
   theme_classic() +
   labs(x = "Impediment to voter ID", y = "Percentage") +
   scale_x_discrete(limits = c("ID-Capable", "Hardship", "Relocation")) +

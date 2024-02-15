@@ -1,8 +1,8 @@
 ---
-title: "Harris County, Texas residents faced several barriers to voter identification access during the 2016 United States election"
+title: "Barriers to Voting in Harris County, Texas During the 2016 United States Election"
 author: 
   - Benny Rochwerg
-thanks: "Data and code used to generate this report are available here: <https://github.com/bennyrochwerg/voter-id/> \n Replication of three graphs from @voterid is available here: <https://www.socialsciencereproduction.org/reproductions/c0801c33-77d8-4be2-ad60-fa21826856ca/index>"
+thanks: "Data and code used to generate this report are available here: <https://github.com/bennyrochwerg/voter-id/> \n Replication of three graphs from @voterid is available here: <https://doi.org/10.48152/ssrp-66sw-gk97>"
 date: 02-13-2024
 date-format: long
 abstract: "This report analyzed reasonable impediment declaration (RID) data on barriers to voter identification access in Harris County, Texas during the 2016 United States election. In comparing Harris County to Texas at large, lack of transportation was an overrepresented impediment, hardship was an overrepresented grouped impediment, and hardship among Black RID-filers was overrepresented. Possible contributors to these findings, including health and public transit concerns in Harris County, were identified. Future research should examine ways of mitigating these issues, such as enhancing public transit access and improving public health."
@@ -50,7 +50,11 @@ In the United States (US), individual states have different voting practices [@v
 
 This form of voter ID requirement, which Texas introduced in 2014, is under scrutiny for possibly contributing to voter disenfranchisement [@voterid]. This is especially alarming in the case of minority groups, which are among those with lower voter ID rates [@voterid]. Although @voterid examined the demographics most at risk of possible disenfranchisement from the voter ID requirement in Texas as a whole, barriers to acquiring said ID were not emphasized. Consequently, this analysis focuses on voter ID access barriers faced by individuals in Harris County, the most populated of Texas' 254 counties [@population], which comprised approximately `r round(100 * (4731145 / 29145505))`\% of the state's population in 2020 (calculated based on @population). That is, the estimand or quantity of concern in this analysis is voter ID access barriers faced by individuals in Harris County [@tellingstorieswithdata].
 
-As discussed in @sec-data, replication data [@voteriddata] from @voterid was used to examine the most common impediments to acquiring voter ID in Harris County, Texas. In @sec-results, it was found that approximately 10\% of RID-filers in Harris County listed lack of transportation as their voter ID impediment, that approximately 37\% of Harris County RID-filers had a grouped voter ID impediment of hardship (e.g., lacking transportation or documentation, having work or family obligations, or having a disability or illness), and that approximately 39\% of Black Harris County RID-filers experienced a grouped voter ID impediment of hardship. The discussion of these results in @sec-discussion using Texas-wide data from @sec-appendix indicated that lack of transportation was an overrepresented impediment in Harris County compared to Texas at large, that hardship was an overrepresented grouped impediment in Harris County, and that hardship among Black RID-filers was overrepresented in Harris County. Possible contributors to these findings, including health and public transit concerns, were also described in @sec-discussion. This suggests that ways of mitigating these issues, such as enhancing public transit access and improving public health, should be explored. This paper consists of @sec-data, which describes the data and its measurement; @sec-results, which contains the results; @sec-discussion, which discusses the results alongside weaknesses and next steps; and @sec-appendix, which contains Texas-wide results and supplementary information.
+As discussed in @sec-data, replication data [@voteriddata] from @voterid was used to examine the most common impediments to acquiring voter ID in Harris County, Texas. In @sec-results, it was found that approximately 10\% of RID-filers in Harris County listed lack of transportation as their voter ID impediment, that approximately 37\% of Harris County RID-filers had a grouped voter ID impediment of hardship (e.g., lacking transportation or documentation, having work or family obligations, or having a disability or illness), and that approximately 39\% of Black Harris County RID-filers experienced a grouped voter ID impediment of hardship.
+
+The discussion of these results in @sec-discussion using Texas-wide data from @sec-appendix indicated that lack of transportation was an overrepresented impediment in Harris County compared to Texas at large, that hardship was an overrepresented grouped impediment in Harris County, and that hardship among Black RID-filers was overrepresented in Harris County. Possible contributors to these findings, including health and public transit concerns, were also described in @sec-discussion. This suggests that ways of mitigating these issues, such as enhancing public transit access and improving public health, should be explored.
+
+This paper consists of @sec-data, which describes the data and its measurement; @sec-results, which contains the results; @sec-discussion, which discusses the results alongside weaknesses and next steps; and @sec-appendix, which contains Texas-wide results and supplementary information.
 
 # Data {#sec-data}
 
@@ -68,9 +72,13 @@ reasons_data_harris <- read_csv(here::here("data/reproduction/reasons_data_harri
 
 This report explores replication data [@voteriddata] associated with the article *Who Do Voter ID Laws Keep from Voting?* by @voterid. This data, along with associated code, was uploaded by the authors to The Journal of Politics Dataverse [@voteriddata] to allow others to replicate aspects of the article such as graphs and tables. By facilitating the reproduction of the authors' findings, this data [@voteriddata] contributes to the reliability and authenticity of the contents of the article [@tellingstorieswithdata] and its conclusions.
 
-The data from @voteriddata includes both county- and voter-level variables from Texas in 2016. First, the county-level variables include the proportions of Black and Hispanic people, the proportions of individuals aged 18 to 24 and 75 and over, the proportion of people who voted for Barack Obama in the 2012 United States presidential election (excluding third-party candidates), the proportion of non-college educated individuals, the rate of RID usage in 2016, the rate of ID-capable individuals (i.e., RID-filers who did not have their voter ID on hand as they forgot it, lost it, or withheld it in a defiant manner), the rates of relocation (e.g., applying but not yet receiving voter ID) and hardship faced by individuals, and median household income [@voteriddata; @voterid]. Second, the voter-level variables were collected from RID submissions and include the county of each RID-filer, the issue or impediment that prevented each filer from acquiring voter ID (as well as grouped impediments such as relocation, hardship, and being ID-capable), the age and predicted race of each filer, whether or not each filer was female, and the type of non-voter ID used by each filer [@voteriddata; @voterid].
+The data from @voteriddata includes both county- and voter-level variables from Texas in 2016. First, the county-level variables include the proportions of Black and Hispanic people, the proportions of individuals aged 18 to 24 and 75 and over, the proportion of people who voted for Barack Obama in the 2012 United States presidential election (excluding third-party candidates), the proportion of non-college educated individuals, the rate of RID usage in 2016, the rate of ID-capable individuals (i.e., RID-filers who did not have their voter ID on hand as they forgot it, lost it, or withheld it in a defiant manner), the rates of relocation (e.g., applying but not yet receiving voter ID) and hardship faced by individuals, and median household income [@voteriddata; @voterid].
 
-With respect to measurement, the authors collected the voter-level RID documents by submitting a Texas Public Information Act request [@voterid]. This yielded 16,097 RID documents, each of which included the filer's self-reported voter ID impediment, the type of non-voter ID used by the filer, and the filer's name [@voterid]. These RID documents were filed by individuals at their polling location [@voterid], and the data from the RID documents was organized electronically by @voterid. The authors then cross-referenced this RID data with Texas secretary of state voter registration data, which contained more personal details about each filer compared to the RID documents [@voterid]. Afterward, @voterid used the filers' personal details (e.g., their surnames) as well as other demographic and geographic resources to predict their races as the voter registration data only stated if a family name was Spanish or not [@voterid]. Moreover, the authors obtained demographic county-related data from the 2015 US Census American Community Survey and used imputation to fill in missing data from one of the counties [@voterid].
+Second, the voter-level variables were collected from RID submissions and include the county of each RID-filer, the issue or impediment that prevented each filer from acquiring voter ID (as well as grouped impediments such as relocation, hardship, and being ID-capable), the age and predicted race of each filer, whether or not each filer was female, and the type of non-voter ID used by each filer [@voteriddata; @voterid].
+
+With respect to measurement, the authors collected the voter-level RID documents by submitting a Texas Public Information Act request [@voterid]. This yielded 16,097 RID documents, each of which included the filer's self-reported voter ID impediment, the type of non-voter ID used by the filer, and the filer's name [@voterid]. These RID documents were filed by individuals at their polling location [@voterid], and the data from the RID documents was organized electronically by @voterid. The authors then cross-referenced this RID data with Texas secretary of state voter registration data, which contained more personal details about each filer compared to the RID documents [@voterid].
+
+Afterward, @voterid used the filers' personal details (e.g., their surnames) as well as other demographic and geographic resources to predict their races as the voter registration data only stated if a family name was Spanish or not [@voterid]. Moreover, the authors obtained demographic county-related data from the 2015 US Census American Community Survey and used imputation to fill in missing data from one of the counties [@voterid].
 
 Since this analysis exclusively focuses on the voter-level RID-filer data, which could only be accessed by the authors through a formal request [@voterid], other similar datasets could not be used to generate this report. After downloading the data with the R programming language [@citeR] and the `tidyverse` [@citetidyverse], `haven` [@citehaven], and `labelled` [@citelabelled] packages, the `tidyverse` [@citetidyverse] package was employed in order to clean and filter the data. In doing so, a new variable was created to indicate whether or not each individual was White. Finally, the `tidyverse` [@citetidyverse] and `here` [@citehere] packages were used to load the data with the R programming language [@citeR], and the `tidyverse` [@citetidyverse] package was used to create the graph in this section.
 
@@ -104,7 +112,7 @@ fig_races <-
   ggplot(mapping = aes(x = reorder(fig_races_data$race, fig_races_data$percent,
                                    decreasing = TRUE),
                        y = fig_races_data$percent)) +
-  geom_col() +
+  geom_col(fill = "royalblue") +
   theme_classic() +
   labs(x = "Race", y = "Percentage") +
   coord_flip() +
@@ -171,7 +179,7 @@ fig_impediments <-
   ggplot(mapping = aes(x = reorder(fig_impediments_data$reason, fig_impediments_data$percent,
                                    decreasing = TRUE),
                        y = fig_impediments_data$percent)) +
-  geom_col() +
+  geom_col(fill = "turquoise") +
   theme_classic() +
   labs(x = "Impediment to voter ID", y = "Percentage") +
   coord_flip() +
@@ -224,7 +232,7 @@ fig_grouped_impediments <-
   ggplot(mapping = aes(x = reorder(fig_grouped_impediments_data$reason, fig_grouped_impediments_data$percent,
                                    decreasing = TRUE),
                        y = fig_grouped_impediments_data$percent)) +
-  geom_col() +
+  geom_col(fill = "orange") +
   theme_classic() +
   labs(x = "Impediment to voter ID", y = "Percentage") +
   coord_flip() +
@@ -281,7 +289,7 @@ fig_grouped_impediments_race_data_white <- fig_grouped_impediments_race_data_whi
 fig_grouped_impediments_race_white <-
   ggplot(mapping = aes(x = fig_grouped_impediments_race_data_white$reason,
                        y = fig_grouped_impediments_race_data_white$percent)) +
-  geom_col() +
+  geom_col(fill = "darkgreen") +
   theme_classic() +
   labs(x = "Impediment to voter ID", y = "Percentage") +
   scale_x_discrete(limits = c("ID-Capable", "Hardship", "Relocation")) +
@@ -371,7 +379,7 @@ fig_grouped_impediments_race_data_latinx <- fig_grouped_impediments_race_data_la
 fig_grouped_impediments_race_latinx <-
   ggplot(mapping = aes(x = fig_grouped_impediments_race_data_latinx$reason,
                        y = fig_grouped_impediments_race_data_latinx$percent)) +
-  geom_col() +
+  geom_col(fill = "salmon") +
   theme_classic() +
   labs(x = "Impediment to voter ID", y = "Percentage") +
   scale_x_discrete(limits = c("ID-Capable", "Hardship", "Relocation")) +
@@ -411,19 +419,27 @@ In this report, data from @voteriddata was used to assess voter ID impediments f
 
 ## Lack of transportation was an overrepresented impediment in Harris County
 
-In @sec-results, it was found that approximately 10\% of RID-filers in Harris County listed lack of transportation as their voter ID impediment (@fig-impediments). Conversely, in Texas at large, lack of transportation was only listed on approximately 7\% of RID documents (@fig-2). In 2015, the Houston bus transit system, which services large segments of Harris County [@citemetro], was broadened to include more frequent busing between different locations in Houston [@voxhouston]. However, this change increased the distance to a transit stop for a number of individuals [@voxhouston]. Consequently, it is possible that this side effect of the Houston transit overhaul contributed to the higher lack of transportation voter ID impediment rate observed in Harris County compared to Texas as a whole.
+In @sec-results, it was found that approximately 10\% of RID-filers in Harris County listed lack of transportation as their voter ID impediment (@fig-impediments). Conversely, in Texas at large, lack of transportation was only listed on approximately 7\% of RID documents (@fig-2).
+
+In 2015, the Houston bus transit system, which services large segments of Harris County [@citemetro], was broadened to include more frequent busing between different locations in Houston [@voxhouston]. However, this change increased the distance to a transit stop for a number of individuals [@voxhouston]. Consequently, it is possible that this side effect of the Houston transit overhaul contributed to the higher lack of transportation voter ID impediment rate observed in Harris County compared to Texas as a whole.
 
 ## Hardship was an overrepresented grouped impediment in Harris County
 
-Based on @sec-results, approximately 37\% of Harris County RID-filers had a grouped voter ID impediment of hardship (@fig-grouped-impediments). However, the statewide rate of hardship was only approximately 33\% (@fig-3). As per @voterid, hardship includes a lack of transportation or documentation, work or family obligations, and disability or illness. The rate of hardship among Harris County residents has likely only been further exacerbated by recent health trends. For instance, 23\% of Harris County adults reported "poor" or "fair" health in 2019, and approximately 30\% of below-$25,000-per-year-earning adults experienced obesity in 2016 [@harrishealth]. As a result, this confluence of health and financial issues likely continues to increase hardship among Harris County residents, ultimately limiting their ability to obtain voter ID.
+Based on @sec-results, approximately 37\% of Harris County RID-filers had a grouped voter ID impediment of hardship (@fig-grouped-impediments). However, the statewide rate of hardship was only approximately 33\% (@fig-3).
+
+As per @voterid, hardship includes a lack of transportation or documentation, work or family obligations, and disability or illness. The rate of hardship among Harris County residents has likely only been further exacerbated by recent health trends. For instance, 23\% of Harris County adults reported "poor" or "fair" health in 2019, and approximately 30\% of below-$25,000-per-year-earning adults experienced obesity in 2016 [@harrishealth]. As a result, this confluence of health and financial issues likely continues to increase hardship among Harris County residents, ultimately limiting their ability to obtain voter ID.
 
 ## Hardship among Black RID-filers was overrepresented in Harris County
 
-@sec-results indicates that approximately 39\% of Black Harris County RID-filers experienced a grouped voter ID impediment of hardship (@fig-grouped-impediments-race). This is noticeably greater than the rate of hardship among Black RID-filers in Texas overall, which was approximately 34\% (@fig-a2). In 2016, approximately 47\% of Black Harris County adults experienced obesity, and data from 2018 to 2020 indicates that Black people had a premature death rate approximately 1.5 times greater than that for White people in Harris County [@harrishealth]. These factors likely contributed to the hardship faced by Black RID-filers in 2016, reducing their capability to procure voter ID.
+@sec-results indicates that approximately 39\% of Black Harris County RID-filers experienced a grouped voter ID impediment of hardship (@fig-grouped-impediments-race). This is noticeably greater than the rate of hardship among Black RID-filers in Texas overall, which was approximately 34\% (@fig-a2).
+
+In 2016, approximately 47\% of Black Harris County adults experienced obesity, and data from 2018 to 2020 indicates that Black people had a premature death rate approximately 1.5 times greater than that for White people in Harris County [@harrishealth]. These factors likely contributed to the hardship faced by Black RID-filers in 2016, reducing their capability to procure voter ID.
 
 ## Weaknesses, bias, and ethics
 
-This investigation was prone to several weaknesses. First, as described in @sec-data, the races of the RID-filers ("White", "Black", "Latinx", etc.) were predicted based on personal details like family name and external sources such as demographic and geographic resources rather than directly observed [@voterid]. This means that the race-based data analyzed in previous sections of this report may not have been fully accurate, likely leading to biased results in @sec-results. Second, similar to what is described in @voterid, the RID documentation did not capture data from individuals who did not vote or visit a polling station. This presumably contributed to bias in the data as the impediments to obtaining voter ID in Harris County were likely undercounted. With respect to ethics, it is unclear as to whether the RID-filers consented to the release of these documents based on @voterid. This is especially concerning given that each filer's signature and name was provided on their RID document [@voterid]. Namely, the release of these RID documents to the researchers may have violated the filers' right to privacy by limiting their control of their sensitive details without consent [@privacy].
+This investigation was prone to several weaknesses. First, as described in @sec-data, the races of the RID-filers ("White", "Black", "Latinx", etc.) were predicted based on personal details like family name and external sources such as demographic and geographic resources rather than directly observed [@voterid]. This means that the race-based data analyzed in previous sections of this report may not have been fully accurate, likely leading to biased results in @sec-results. Second, similar to what is described in @voterid, the RID documentation did not capture data from individuals who did not vote or visit a polling station. This presumably contributed to bias in the data as the impediments to obtaining voter ID in Harris County were likely undercounted.
+
+With respect to ethics, it is unclear as to whether the RID-filers consented to the release of these documents based on @voterid. This is especially concerning given that each filer's signature and name was provided on their RID document [@voterid]. Namely, the release of these RID documents to the researchers may have violated the filers' right to privacy by limiting their control of their sensitive details without consent [@privacy].
 
 ## Next steps
 
@@ -489,7 +505,7 @@ figure_2_replication <-
   ggplot(mapping = aes(x = reorder(figure_2_data$reason, figure_2_data$percent,
                                    decreasing = TRUE),
                        y = figure_2_data$percent)) +
-  geom_col() +
+  geom_col(fill = "turquoise") +
   theme_classic() +
   labs(x = "Impediment to voter ID", y = "Percentage") +
   coord_flip() +
@@ -544,7 +560,7 @@ figure_3_replication <-
   ggplot(mapping = aes(x = reorder(figure_3_data$reason, figure_3_data$percent,
                                    decreasing = TRUE),
                        y = figure_3_data$percent)) +
-  geom_col() +
+  geom_col(fill = "orange") +
   theme_classic() +
   labs(x = "Impediment to voter ID", y = "Percentage") +
   coord_flip() +
@@ -603,7 +619,7 @@ figure_a2_data_white <- figure_a2_data_white |>
 figure_a2_white_replication <-
   ggplot(mapping = aes(x = figure_a2_data_white$reason,
                        y = figure_a2_data_white$percent)) +
-  geom_col() +
+  geom_col(fill = "darkgreen") +
   theme_classic() +
   labs(x = "Impediment to voter ID", y = "Percentage") +
   scale_x_discrete(limits = c("ID-Capable", "Hardship", "Relocation")) +
@@ -693,7 +709,7 @@ figure_a2_data_latinx <- figure_a2_data_latinx |>
 figure_a2_latinx_replication <-
   ggplot(mapping = aes(x = figure_a2_data_latinx$reason,
                        y = figure_a2_data_latinx$percent)) +
-  geom_col() +
+  geom_col(fill = "salmon") +
   theme_classic() +
   labs(x = "Impediment to voter ID", y = "Percentage") +
   scale_x_discrete(limits = c("ID-Capable", "Hardship", "Relocation")) +
