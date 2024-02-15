@@ -1,8 +1,8 @@
-# Harris County, Texas residents faced several barriers to voter identification access during the 2016 United States election
+# Harris County, Texas Residents Faced Several Barriers to Voter Identification Access During the 2016 United States Election
 
 # Description
 
-This Repository consists of the files employed to create the report titled *Harris County, Texas residents faced several barriers to voter identification access during the 2016 United States election*.
+This Repository consists of the files employed to create the report titled *Harris County, Texas Residents Faced Several Barriers to Voter Identification Access During the 2016 United States Election*.
 
 Some of the R code employed here was adapted from Alexander (2023).
 
